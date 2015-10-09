@@ -1,0 +1,113 @@
+---
+title: "calendar_clearup"
+author: "ccheng"
+date: "September 24, 2015"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+suppressMessages(library(rmarkdown))
+suppressMessages(library(ggplot2))
+suppressMessages(library(tidyr))
+suppressMessages(library(dplyr))
+suppressMessages(library(zoo))
+suppressMessages(library(lubridate))
+suppressMessages(library(grid))
+suppressMessages(library(gridExtra))
+suppressMessages(library(scales))
+suppressMessages(library(memisc))
+
+suppressMessages(library(GGally))
+suppressMessages(library(choroplethr))
+suppressMessages(library(directlabels))
+suppressMessages(library(base64enc))
+suppressMessages(library(maps))
+```
+
+```{r}
+# read data
+data_cal1 <- read.csv('calendar1.csv')
+data_list1 <- read.csv('listings.csv')
+#data_cal2 <- read.csv('calendar2.csv')
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+data_cal1_a <- subset(data_cal1, available == "t")
+#data_cal2_a <- subset(data_cal2, available == "t")
+require(lubridate)
+data_cal1_a$month <- month(data_cal1_a$date) # add month 
+data_cal1_a$day <- wday(data_cal1_a$date, label=TRUE)
+colnames(data_cal1_a)[1] <- "id"
+write.csv(data_cal1_a, file = "data_cal1_a.csv")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r, echo=FALSE}
+
+data_cal1_b <- subset(data_cal1_a) %>%
+            group_by(month) %>%
+            summarise(median_price = median(as.numeric(price)),
+            n=n())
+
+data_cal1_c <- subset(data_cal1_a) %>%
+            group_by(day) %>%
+            summarise(median_price = median(as.numeric(price)),
+            n=n())
+
+p1 <- ggplot(data = data_cal1_b, aes(x=month, y=median_price)) +
+      geom_bar(stat="identity")
+
+p2 <- ggplot(data = data_cal1_c, aes(x=day, y=median_price)) +
+      geom_bar(stat="identity")
+
+grid.arrange(p1, p2, ncol=1)
+
+```
+
+```{r}
+# merge two dataframe
+data1 <- merge(x = data_list1 , y = data_cal1_a, by = "id", all = TRUE)
+write.csv(data1 , file = "data1.csv")
+
+#function to remove outlier 
+#(including prices that are within the 95 % range)
+
+remove_outliers <- function(x, na.rm = TRUE, ...) {
+  qnt <- quantile(x, probs=c(.5, .95), na.rm = na.rm, ...)
+  H <- 1.5 * IQR(x, na.rm = na.rm)
+  y <- x
+  y[x < (qnt[1] - H)] <- NA
+  y[x > (qnt[2] + H)] <- NA
+  y
+}
+
+data1.noOutlier <- subset(data1, price.y == remove_outliers(price.y))
+
+MSP.noOutlier <- subset(MSP1, price == remove_outliers(price), !is.na(price))
+                          
+```
+
+```{r}
+summary(data1) 
+
+data.city.month <- subset(data1, room_type == "Entire home/apt",
+                        !is.na(neighbourhood), 
+                        !is.na(month)) %>%
+            group_by(neighbourhood, month) %>%
+            summarise(median_price =median(as.numeric(price.y)), 
+                    median_aval =median(as.numeric(availability_365)) ,
+            n=n())
+
+data.city.day <- subset(data1, 
+                        !is.na(neighbourhood), 
+                        !is.na(day)) %>%
+            group_by(neighbourhood, day) %>%
+            summarise(median_price = median(as.numeric(price.y)),
+            n=n())
+```

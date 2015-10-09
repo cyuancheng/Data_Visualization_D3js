@@ -1,0 +1,129 @@
+---
+title: "calendar_clearup"
+author: "ccheng"
+date: "September 24, 2015"
+output: html_document
+---
+
+Airbnb data minging and analysis.
+
+```{r}
+suppressMessages(library(rmarkdown))
+suppressMessages(library(ggplot2))
+suppressMessages(library(tidyr))
+suppressMessages(library(dplyr))
+suppressMessages(library(lubridate))
+suppressMessages(library(grid))
+suppressMessages(library(gridExtra))
+suppressMessages(library(scales))
+suppressMessages(library(memisc))
+
+```
+
+Load data
+```{r, echo=FALSE, message=FALSE, warning=FALSE, Load_data}
+# read data
+data_cal_SF <- read.csv('calendar_SF.csv')
+data_list_SF <- read.csv('listings_SF.csv')
+neighborhood_area <- read.csv('neighborhood_area.csv')
+
+```
+
+
+Add month and day into dataframe
+```{r, echo=FALSE, message=FALSE, warning=FALSE, clean_data}
+data_cal_SF_a <- subset(data_cal_SF, available == "t") # subset avaiable data
+
+colnames(data_cal_SF_a)[1] <- "id"
+#library(lubridate)
+#data_cal_SF_a$month <- month(as.Date(data_cal_SF_a$date, "%m/%d/%y")) # add month 
+#data_cal_SF_a$day <- wday(as.Date(data_cal_SF_a$date, "%m/%d/%y"), label=TRUE)
+
+#write.csv(data_cal_SF_a, file = "data_cal_SF_a.csv")
+```
+
+remove outliers
+```{r}
+
+#function to remove outlier 
+#(including prices that are within the 95 % range)
+
+remove_outliers <- function(x, na.rm = TRUE, ...) {
+  qnt <- quantile(x, probs=c(.5, .95), na.rm = na.rm, ...)
+  H <- 1.5 * IQR(x, na.rm = na.rm)
+  y <- x
+  y[x < (qnt[1] - H)] <- NA
+  y[x > (qnt[2] + H)] <- NA
+  y
+}
+
+p1 <- ggplot(data = data_cal_SF_a,  aes(y=price)) +
+      geom_boxplot()
+
+p2 <- ggplot(data = data_cal_SF_a, aes(y=remove_outliers(price))) +
+      geom_boxplot()
+
+grid.arrange(p1, p2, ncol=1)
+
+# remove outliner
+data_cal_SF_NO <- subset(data_cal_SF_a, price > 0 & price == remove_outliers(price), !is.na(price))
+
+write.csv(data_cal_SF_NO , file = "data_cal_SF_NoOutliner.csv")
+```
+
+Merge two dataframes
+```{r}
+# merge two dataframe
+data_SF <- merge(x = data_list_SF , y = data_cal_SF_NO, by = "id", all = TRUE)
+data_SF <- subset(data_SF, !is.na(date))
+
+#add occupancy rate into dataframe
+#data_SF$OccRate <- data_SF$reviews_per_month/11.50*70
+
+summary(data_SF) 
+
+write.csv(data_SF , file = "data1.csv")
+write.table(data_SF, file='data_SF.tsv', quote=FALSE, sep='\t', col.names = NA)
+
+```
+
+
+```{r}
+data_SF_area <- merge(x = neighborhood_area, y = data_SF, by = "neighbourhood", all = TRUE)
+
+data_SF_review <- subset(data_SF_area,!is.na(Area)) %>%
+            group_by(Area) %>%
+            summarise(median_price =median(as.numeric(price.y)), 
+                    median_aval =median(as.numeric(availability_365)/365*100) ,
+            n=n())
+
+data_SF_month <- subset(data_SF_area, number_of_reviews >0 & !is.na(Area)) %>%
+            group_by(room_type, Area, neighbourhood,  month ) %>%
+            summarise(median_price =median(as.numeric(price.y)), 
+                    median_aval =median(as.numeric(availability_365)/365*100),
+                    reviews = sum(as.numeric(number_of_reviews)),
+            n=n())
+
+
+#save as csv file
+write.csv(data_SF_month, file = "data_SF_month.csv")
+
+#save as tsv file
+write.table(data_SF_month, file='data_SF_month.tsv', quote=FALSE, sep='\t', col.names = NA)
+
+```
+
+```{r}
+# price change by month
+ggplot(aes(x = median_aval, y = median_price, 
+                  size=log(reviews)), data = data_SF_month) +
+geom_point(aes(colour = factor(Area)), shape=19, alpha=.7) +
+  facet_wrap( ~ month, ncol=2)
+
+# price change by day
+ggplot(aes(x = median_aval, y = median_price, 
+                  size=log(reviews)), data = data_SF_month) +
+geom_point(aes(colour = factor(neighbourhood)), shape=19, alpha=.7) +
+  facet_wrap( ~ day, ncol=2)
+
+```
