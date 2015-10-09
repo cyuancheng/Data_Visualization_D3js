@@ -37,10 +37,15 @@
     #dc-bubble-graph .node { font-size: 14px; }
     #dc-bubble-graph g.deselected text {
     display: inherit !important;
-}
+    }
     #dc-bubble-graph .axis text {
     font: 11px sans-serif;
-}
+    }
+    .dc-row-graph .axis path, .axis line {
+    stroke: none
+    }
+
+
   body {
       padding-top: 0px;
     }
@@ -204,7 +209,6 @@ d3.tsv("data/data_SF_month.tsv", function (airbnb_data) {
 var facts = crossfilter(airbnb_data);
 var all = facts.groupAll();
 
-
 var priceValue = facts.dimension(function (d) {return d.median_price;});
 var priceValueGroupCount = priceValue.group().reduceCount();
 
@@ -273,13 +277,12 @@ var priceByDay = facts.dimension(function(d) { return d.day; });
 var priceByDayGroup = priceByDay.group()
           .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
 
-var priceByNeighbourhood   = facts.dimension(function(d) { return d.neighbourhood ; });
+var priceByNeighbourhood   = facts.dimension(function(d) { return d.neighbourhood; });
 var priceByNeighbourhoodGroup = priceByNeighbourhood.group()
                     .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
 
 var RoomType = facts.dimension(function (d) { return d.room_type; });
 var RoomTypeGroup = RoomType.group();
-
 
 var priceByTime = facts.dimension(function(d) { return d.dd; });
 var priceAvgByTimeGroup = priceByTime.group().reduce(
@@ -317,10 +320,10 @@ bubbleChart
      * to generate x, y, and radius for each key (bubble) in the group */
     .group(areaValueGroup)
     // (optional) define color function or array for bubbles
-    .colors(d3.scale.category20())
-    //.colors(["red", "#ccc","steelblue","green"])
+    //.colors(d3.scale.category20())
+    .colors(['#AEC7E8', '#FFBB78', '#98DF8A', '#FF9896', '#C5B0D5',
+            '#C49C94', '#F7B6D2', '#C7C7C7', '#DBDB8D', '#9EDAE5'])
     // (optional) define color domain to match your data domain if you want to bind data or color
-    //.colorDomain([0, 20044])
     // closure used to retrieve x value from multi-value group
     .keyAccessor(function(p) {return p.value.sumReview;})
     // closure used to retrieve y value from multi-value group
@@ -379,7 +382,7 @@ pieChart.width(200)
   .dimension(RoomType)
 //  .title(function(d){return d.value;})
   .group(RoomTypeGroup)
-  .colors(d3.scale.category10());
+  .colors(['#729ECE', '#FF9E4A', '#67BF5C']);
   //.colors(["#56B2EA","#E064CD","#F8B700","#78CC00","#7B71C5"]);
 // volume chart
 /* Create a bar chart and use the given css selector as anchor. You can also specify
@@ -409,6 +412,9 @@ rowChart_1
       return order[d.key];
     })
     .elasticX(true)
+    .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
+            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#eaf4fb'])
+    .xAxis().ticks(5);
   //    .xAxisLabel('Price');
 
     // (optional) whether chart should rescale y axis to fit data, :default = false
@@ -469,6 +475,9 @@ rowChart_1
       return order[d.key];
     })
     .elasticX(true)
+    .colors(['#5ab94e', '#67bf5c', '#74c56a', '#81ca78', '#8ed086',
+              '#9cd594', '#a9dba2'])
+    .xAxis().ticks(5) ;
 //        .xAxisLabel('Price');
      // (optional) set x offset for labels, default is 10
     //.labelOffSetX(5)
@@ -521,7 +530,7 @@ lineChart.width(400)
 .elasticY(true)
   .x(d3.time.scale().domain(d3.extent(airbnb_data, function(d) { return d.dd; })))
   .xUnits(d3.time.months)
-  .xAxis();
+  .xAxis().ticks(6) ;
 
 // row chart day of week
 rowChart_3
@@ -530,12 +539,19 @@ rowChart_3
    .group(priceByNeighbourhoodGroup) // set group
    .dimension(priceByNeighbourhood) // set dimension
    .valueAccessor(function (d) { return d.value.averages; })
-
    // (optional) define margins
    .margins({top: 20, left: 5, right: 10, bottom: 20})
    // (optional) define color array for slices
-   .colors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
-
+   .colors(['#FFBB78','#AEC7E8', '#C5B0D5','#F7B6D2','#DBDB8D',
+            '#C5B0D5', '#F7B6D2','#C5B0D5','#AEC7E8','#C49C94',
+           '#98DF8A','#C7C7C7','#FF9896','#FFBB78','#C5B0D5',
+           '#AEC7E8', '#C5B0D5','#C7C7C7','#F7B6D2','#C49C94',
+           '#98DF8A','#FF9896','#98DF8A','#FFBB78','#FF9896',
+          '#FF9896','#C5B0D5','#C49C94','#FFBB78','#AEC7E8',
+          '#DBDB8D',])
+  .xAxis().ticks(5);
+  // '#AEC7E8', '#FFBB78', '#98DF8A', '#FF9896', '#C5B0D5',
+  //         '#C49C94', '#F7B6D2', '#C7C7C7', '#DBDB8D', '#9EDAE5'
   // Render the Charts
   dc.renderAll();
 
