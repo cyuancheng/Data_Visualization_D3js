@@ -76,12 +76,17 @@
             </span>
           </h2>
       <!--  <h5>name </h5> -->
-        <p>
-          <font size="2">
+
+        <p style="font-size:125%">
+
+          In this project, I create a data visualization using d3.js to explore the accommodation places listed on
+          <a href="https://www.airbnb.com">Airbnb</a>
+          in San Francisco. <br>
+
           Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>
-          </font>
-        </p>
-        </div>
+        <!--  </font> -->
+        <p>
+      </div>
 
         <div class='row-fluid'>
 					<div class='remaining-graphs span8'>
@@ -383,7 +388,7 @@ rowChart_1
     })
     .elasticX(true)
     .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
-            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#eaf4fb'])
+            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9'])
     .xAxis().ticks(5);
 
 // row chart day of week
@@ -404,8 +409,8 @@ rowChart_1
       return order[d.key];
     })
     .elasticX(true)
-    .colors(['#5ab94e', '#67bf5c', '#74c56a', '#81ca78', '#8ed086',
-              '#9cd594', '#a9dba2'])
+    .colors(['#5ab94e',  '#74c56a', '#8ed086', '#a9dba2', '#c3e6bf',
+              '#ddf1db', '#ddf1db'])
     .xAxis().ticks(5) ;
 
 //bar chart
