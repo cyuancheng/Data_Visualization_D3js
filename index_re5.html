@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <!--<meta http-equiv="content-type" content="text/html; charset=UTF8"> -->
+  <meta name="viewport" content="width=device-width,
+  initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Data Visulization of Airbnb Price in SF</title>
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.min.js"></script>
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+   <!--<link href='https://raw.githubusercontent.com/cyuancheng/Data_Visualization_D3js/master/stylesheets/dc.css'
+   rel='stylesheet' type='text/css'> -->
+  <!-- <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'> -->
+   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/3.3.5/js/bootstrap.min.js"></script>
+
+<style type="text/css"></style>
+
+<style>
+  h4 span {
+    font-size:12px;
+    font-weight:normal;
+    }
+  h2 {
+    float: right;
+    }
+  h2 span {
+    font-size:12px;
+    font-weight:normal;
+    }
+    #dc-bubble-graph .node { font-size: 12px; }
+    #dc-bubble-graph g.deselected text {
+    display: inherit !important;
+    }
+    #dc-bubble-graph .axis text {
+    font: 10px sans-serif;
+    }
+  /*  .dc-row-graph .axis path, .axis line {
+    stroke: none
+    } */
+
+  body {
+      padding-top: 0px;
+    }
+  .span2, .span4, .span6, .span8, .span12, .container {
+	   border:1 px solid #dddddd;
+     margin-left:5px;
+   }
+   .span4{
+	    margin-left:5px;
+    }
+</style>
+
+</head>
+
+<body>
+
+	<div class='container-fluid' id='main-container'>
+		<div class='content'>
+			<div class='container-fluid' style='font: 10px sans-serif;'>
+				<div class="dc-data-count" style="float: left;">
+          <h2>Visualization of Airbnb Data in San Francisco
+            <span>
+            <!--  <span class="filter-count"></span>
+              selected out of
+              <span class="total-count"></span>
+              records |-->
+              <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+            </span>
+          </h2>
+      <!--  <h5>name </h5> -->
+
+       <p style="font-size:110%">
+
+          In this project, I create a data visualization using d3.js to explore the accommodation places listed on
+          <a href="https://www.airbnb.com">Airbnb</a>
+          in San Francisco. <br>
+
+          (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
+
+        <p>
+      </div>
+
+        <div class='row-fluid'>
+					<div class='col-md-8'>
+						<div class='row-fluid'>
+							<div class="col-md-12 col-xs-12" id='dc-bubble-graph'>
+								<h4>Price vs. Total Number of Review
+                  <span>
+                    <a class="reset"
+                      href="javascript:bubbleChart.filterAll();dc.redrawAll();"
+                      style="display: none;">
+                      reset
+                    </a>
+                  </span>
+                </h4>
+                <p> bubble size : count </p>
+							</div>
+						</div>
+						<div class='row-fluid'>
+							<div class="col-md-4 col-xs-4" id='dc-pie-graph'>
+								<h4>Room type
+                  <span>
+                    <a class="reset"
+                      href="javascript:pieChart.filterAll();dc.redrawAll();"
+                      style="display: none;">
+                      reset
+                    </a>
+                  </span>
+                </h4>
+							</div>
+							<div class="col-md-4 col-xs-4" id='dc-row-chart1'>
+								<h4> Price by Month
+                  <span>
+                    <a class="reset"
+                      href="javascript:rowChart_1.filterAll();dc.redrawAll();"
+                      style="display: none;">
+                      reset
+                    </a>
+                  </span>
+                </h4>
+                <p> x axis : price / night </p>
+							</div>
+							<div class="col-md-4 col-xs-4" id='dc-row-chart2'>
+								<h4>Price by day
+                  <span>
+                    <a class="reset"
+                      href="javascript:rowChart_2.filterAll();dc.redrawAll();"
+                      style="display: none;">
+                      reset
+                    </a>
+                  </span>
+                </h4>
+                <p> x axis : price / night </p>
+							</div>
+						</div>
+						<!-- /other little graphs go here -->
+						<div class='row-fluid'>
+							<div class="col-md-4 col-xs-4" id='dc-bar-graph'>
+								<h4>Price Distribution</h4>
+                <span>
+                  <a class="reset"
+                    href="javascript:barChart.filterAll();dc.redrawAll();"
+                    style="display: none;">
+                    reset
+                  </a>
+                </span>
+							</div>
+              <div class="col-md-8 col-xs-8" id='dc-line-chart'>
+                <h4>Price Varies with Time</h4>
+                <span>
+                  <a class="reset"
+                    href="javascript:lineChart.filterAll();dc.redrawAll();"
+                    style="display: none;">
+                    reset
+                  </a>
+                </span>
+              </div>
+						</div>
+					</div>
+					<div class="col-sm-4 col-xs-4">
+						<div class='row-fluid'>
+							<div class='col-md-12 col-xs-12' id='dc-row-chart3' style='color:black;'>
+								<h4>Price by Neighbourhood
+                  <span>
+                    <a class="reset"
+                      href="javascript:rowChart_3.filterAll();dc.redrawAll();"
+                      style="display: none;">
+                      reset
+                    </a>
+                  </span>
+                </h4>
+                 <p> x axis : price / night </p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div id='footer'>
+		<div class='container'><footer class='text-center'></footer>
+		</div>
+	</div>
+
+<script type="text/javascript">
+
+// 	Create the dc.js chart objects & link to div
+
+var bubbleChart = dc.bubbleChart("#dc-bubble-graph");
+var pieChart = dc.pieChart("#dc-pie-graph");
+var rowChart_1 = dc.rowChart("#dc-row-chart1");
+var rowChart_2 = dc.rowChart("#dc-row-chart2");
+var barChart = dc.barChart("#dc-bar-graph");
+var lineChart = dc.lineChart("#dc-line-chart")
+var rowChart_3 = dc.rowChart("#dc-row-chart3");
+
+//  Load data from a tsv file
+d3.tsv("data/data_SF_month.tsv", function (airbnb_data) {
+  
+  var dateFormat = d3.time.format("%m/%d/%y");
+  var numberFormat = d3.format(".2f");
+  var monthNameFormat = d3.time.format("%b"); //month format
+
+  airbnb_data.forEach(function (e) {
+      e.dd = dateFormat.parse(e.date);
+      e.month1 = monthNameFormat(e.dd); //month format
+  });
+
+// Run the data through crossfilter and load 'facts'
+var facts = crossfilter(airbnb_data);
+var all = facts.groupAll();
+
+var priceValue = facts.dimension(function (d) {return d.median_price;});
+var priceValueGroupCount = priceValue.group().reduceCount();
+
+var areaValue = facts.dimension(function (d) { return d.Area_SF; });
+var areaValueGroup = areaValue.group().reduce(
+        /* callback for when data is added to the current filter results */
+        function (p, v) {
+            ++p.count;
+            p.sumPrice += Number(v.median_price);
+            p.sumAva += Number(v.median_aval);
+            p.avgPrice = p.sumPrice / p.count;
+            p.avgAva = p.sumAva / p.count;
+            p.sumReview += Number(v.reviews);
+            return p;
+        },
+        /* callback for when data is removed from the current filter results */
+        function (p, v) {
+            --p.count;
+            p.sumPrice -= Number(v.median_price);
+            p.sumAva -= Number(v.median_aval);
+            p.avgPrice = p.sumPrice / p.count;
+            p.avgAva = p.sumAva / p.count;
+            p.sumReview -= Number(v.reviews);
+            return p;
+        },
+        /* initialize p */
+        function () {
+            return {
+                count: 0,
+                sumPrice: 0,
+                sumAva: 0,
+                avgPrice: 0,
+                avgAva: 0,
+                sumReview: 0,
+                    };
+        }
+    );
+
+//function for taking average*****
+function reduceAddAvg(attr) {
+        return function(p,v) {
+              ++p.count
+              p.sums += Number(v[attr]);
+              p.averages = (p.count === 0) ? 0 : p.sums/p.count; // gaurd against dividing by zero
+        return p;
+        };
+    }
+function reduceRemoveAvg(attr) {
+        return function(p,v) {
+              --p.count
+              p.sums -= Number(v[attr]);
+              p.averages = (p.count === 0) ? 0 : p.sums/p.count;
+        return p;
+        };
+    }
+function reduceInitAvg() {
+        return {count:0, sums:0, averages:0};
+    }
+//******************
+
+var priceByMonth = facts.dimension(function(d) { return d.month1; });
+var priceByMonthGroup = priceByMonth.group()
+          .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
+
+var priceByDay = facts.dimension(function(d) { return d.day; });
+var priceByDayGroup = priceByDay.group()
+          .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
+
+var priceByNeighbourhood   = facts.dimension(function(d) { return d.neighbourhood; });
+var priceByNeighbourhoodGroup = priceByNeighbourhood.group()
+                    .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
+
+var RoomType = facts.dimension(function (d) { return d.room_type; });
+var RoomTypeGroup = RoomType.group();
+
+var priceByTime = facts.dimension(function(d) { return d.dd; });
+var priceAvgByTimeGroup = priceByTime.group().reduce(
+                    function (p, v) {
+                        ++p.days;
+                        p.total += Number(v.median_price);
+                        p.avg = Math.round(p.total / p.days);
+                        return p;
+                    },
+                    function (p, v) {
+                        --p.days;
+                        p.total -= Number(v.median_price);
+                        p.avg = p.days == 0 ? 0 : Math.round(p.total / p.days);
+                        return p;
+                    },
+                    function () {
+                        return {days: 0, total: 0, avg: 0};
+                    }
+            );
+//var result = priceAvgByTimeGroup.top(Infinity);
+//console.log("result variable");
+//console.log(result);
+
+// Plot
+// bubble  Chart
+bubbleChart
+    .width(700)
+    .height(300)
+    .transitionDuration(1000)
+    .margins({top: 0, right: 5, bottom: 30, left: 30})
+    .dimension(areaValue)
+    .group(areaValueGroup)
+    .colors(['#AEC7E8', '#FFBB78', '#98DF8A', '#FF9896', '#C5B0D5',
+            '#C49C94', '#F7B6D2', '#C7C7C7', '#DBDB8D', '#9EDAE5'])
+    .keyAccessor(function(p) {return p.value.sumReview;})
+    .valueAccessor(function(p) {return p.value.avgPrice;})
+    .radiusValueAccessor(function(p) {return p.value.count;})
+    .x(d3.scale.linear().domain([0,4000000 ]))
+    .y(d3.scale.linear().domain([0, 1500]))
+    .elasticX(true)
+    .xAxisPadding(250000)
+    .elasticY(true)
+    .yAxisPadding(25)
+    .r(d3.scale.linear().domain([0, 15000]))
+    .maxBubbleRelativeSize(0.2)
+    .renderHorizontalGridLines(true)
+    .renderVerticalGridLines(true)
+    .title(function(p) {
+        return p.key
+                + "\n"
+                + "average price: " + numberFormat(p.value.avgPrice) + "\n"
+                + "average availability: " + numberFormat(p.value.avgAva) + "%" + "\n"
+                + "number of review: " + numberFormat(p.value.sumReview) + "\n"
+                + "count:" + numberFormat(p.value.count);
+    })
+    .xAxisLabel('Total Number of Review')
+    .yAxisLabel('Price / Night')
+    .xAxis().ticks(8);
+
+//pie chart
+pieChart.width(200)
+  .height(200)
+  .transitionDuration(1000)
+  .radius(100)
+  .innerRadius(0)
+  .label(function(d) { return d.data.key + "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; })
+  .renderLabel(true)
+  .title(function(d) { return d.data.key + "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; })
+  .renderTitle(true)
+  .dimension(RoomType)
+  .group(RoomTypeGroup)
+  .colors(['#729ECE', '#FF9E4A', '#67BF5C']);
+
+rowChart_1
+    .width(220)
+    .height(220)
+    .transitionDuration(1000)
+    .margins({top:5, right: 5, bottom: 20, left: 5})
+    .group(priceByMonthGroup)
+    .dimension(priceByMonth)
+    .gap(1)
+    .valueAccessor(function (d) { return d.value.averages;})
+    .title(function(d){return d.key;})
+    .ordering(function (d) {
+      var order = {
+    'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3,
+    'May': 4, 'Jun': 5, 'Jul': 6, 'Aug':7,
+    'Sep':8, 'Oct':9, 'Nov':10, 'Dec':11
+    }
+      return order[d.key];
+    })
+    .elasticX(true)
+    .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
+            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9'])
+    .xAxis().ticks(5);
+
+// row chart day of week
+ rowChart_2
+    .width(220)
+    .height(220)
+    .group(priceByDayGroup)
+    .dimension(priceByDay)
+    .valueAccessor(function (d) { return d.value.averages; })
+    .margins({top: 5, left: 5, right: 5, bottom: 20})
+    .gap(1)
+    .title(function(d){return d.key;})
+    .ordering(function (d) {
+      var order = {
+    'Mon': 0, 'Tues': 1, 'Wed': 2, 'Thurs': 3,
+    'Fri': 4, 'Sat': 5, 'Sun': 6
+    }
+      return order[d.key];
+    })
+    .elasticX(true)
+    .colors(['#5ab94e',  '#74c56a', '#8ed086', '#a9dba2', '#c3e6bf',
+              '#ddf1db', '#ddf1db'])
+    .xAxis().ticks(5) ;
+
+//bar chart
+barChart.width(210)
+  .height(210)
+  .margins({top: 5, right: 10, bottom: 40, left: 25})
+  .dimension(priceValue)
+  .group(priceValueGroupCount)
+  .centerBar(true)
+  .x(d3.scale.linear().domain([0, 500]))
+  .xUnits(function(){return 30;})
+  .elasticY(true)
+  .xAxisLabel('Price / Night')
+  .xAxis().tickValues([0, 100, 200, 300, 400, 500]);
+
+//lineChart
+lineChart.width(450)
+  .height(200)
+  .transitionDuration(1000)
+  .margins({top: 5, right: 5, bottom: 40, left: 30})
+  .dimension(priceByTime)
+  .group(priceAvgByTimeGroup)
+  .valueAccessor(function(p) {return p.value.avg;})
+  .elasticY(true)
+  .renderVerticalGridLines(true)
+  .x(d3.time.scale().domain(d3.extent(airbnb_data, function(d) { return d.dd; })))
+  .yAxisLabel('Price / Night')
+  .renderlet(function (chart) {
+ // rotate x-axis labels
+    chart.selectAll('g.x text')
+    .attr('transform', 'translate(-10,10) rotate(315)');
+    })
+
+// row chart day of week
+rowChart_3
+   .width(250)
+   .height(810)
+   .group(priceByNeighbourhoodGroup)
+   .dimension(priceByNeighbourhood)
+   .valueAccessor(function (d) { return d.value.averages; })
+   .margins({top: 0, left: 5, right: 10, bottom: 20})
+   .colors(['#FFBB78','#AEC7E8', '#C5B0D5','#F7B6D2','#DBDB8D',
+            '#C5B0D5', '#F7B6D2','#C5B0D5','#AEC7E8','#C49C94',
+           '#98DF8A','#C7C7C7','#FF9896','#FFBB78','#C5B0D5',
+           '#AEC7E8', '#C5B0D5','#C7C7C7','#F7B6D2','#C49C94',
+           '#98DF8A','#FF9896','#98DF8A','#FFBB78','#FF9896',
+          '#FF9896','#C5B0D5','#C49C94','#FFBB78','#AEC7E8',
+          '#DBDB8D',])
+  .xAxis().ticks(5);
+  dc.renderAll();
+
+});
+</script>
+
+
+</body>
+</html>
