@@ -4,28 +4,23 @@
   <!--<meta http-equiv="content-type" content="text/html; charset=UTF8"> -->
   <meta name="viewport" content="width=device-width,
   initial-scale=1, maximum-scale=1, user-scalable=no">
-
   <title>Data Visulization of Airbnb Price in SF</title>
 
   <script src="http://d3js.org/d3.v3.min.js"></script>
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.min.js"></script>
   <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
-   <!--<link href='https://raw.githubusercontent.com/cyuancheng/Data_Visualization_D3js/master/stylesheets/dc.css'
-   rel='stylesheet' type='text/css'> -->
-  <!-- <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'> -->
-   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/3.3.5/js/bootstrap.min.js"></script>
+
+  <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
 
 <style type="text/css"></style>
 
 <style>
-
   h4 span {
     font-size:12px;
     font-weight:normal;
@@ -53,20 +48,20 @@
     }
   .span2, .span4, .span6, .span8, .span12, .container {
 	   border:1 px solid #dddddd;
-     margin-left:5px;
+     margin-left:10px;
    }
    .span4{
-	    margin-left:5px;
-    } 
+	    margin-left:10px;
+    }
 </style>
 
 </head>
 
 <body>
 
-	<div class='container-fluid' id='main-container'>
+	<div class='container' id='main-container'>
 		<div class='content'>
-			<div class='container-fluid' style='font: 10px sans-serif;'>
+			<div class='container' style='font: 10px sans-serif;'>
 				<div class="dc-data-count" style="float: left;">
           <h2>Visualization of Airbnb Data in San Francisco
             <span>
@@ -74,26 +69,26 @@
               selected out of
               <span class="total-count"></span>
               records |-->
-              <a href="javascript:dc.filterAll(); dc.renderAll();"> Reset All</a>
+              <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
             </span>
           </h2>
       <!--  <h5>name </h5> -->
 
-       <p style="font-size:110%">
+        <p style="font-size:125%">
 
           In this project, I create a data visualization using d3.js to explore the accommodation places listed on
           <a href="https://www.airbnb.com">Airbnb</a>
           in San Francisco. <br>
 
-          (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
-
+          Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>
+        <!--  </font> -->
         <p>
       </div>
 
         <div class='row-fluid'>
-					<div class='col-md-8' 'col-xs-12' 'col-sm-6'>
+					<div class='remaining-graphs span8'>
 						<div class='row-fluid'>
-							<div class="col-md-12 col-xs-12" id='dc-bubble-graph'>
+							<div class='span12' id='dc-bubble-graph'>
 								<h4>Price vs. Total Number of Review
                   <span>
                     <a class="reset"
@@ -107,7 +102,7 @@
 							</div>
 						</div>
 						<div class='row-fluid'>
-							<div class="col-md-4 col-xs-12" id='dc-pie-graph'>
+							<div class='span4' id='dc-pie-graph'>
 								<h4>Room type
                   <span>
                     <a class="reset"
@@ -118,7 +113,7 @@
                   </span>
                 </h4>
 							</div>
-							<div class="col-md-4 col-xs-12" id='dc-row-chart1'>
+							<div class='span4' id='dc-row-chart1'>
 								<h4> Price by Month
                   <span>
                     <a class="reset"
@@ -130,7 +125,7 @@
                 </h4>
                 <p> x axis : price / night </p>
 							</div>
-							<div class="col-md-4 col-xs-12" id='dc-row-chart2'>
+							<div class='span4' id='dc-row-chart2'>
 								<h4>Price by day
                   <span>
                     <a class="reset"
@@ -145,7 +140,7 @@
 						</div>
 						<!-- /other little graphs go here -->
 						<div class='row-fluid'>
-							<div class="col-md-4 col-xs-12" id='dc-bar-graph'>
+							<div class='span4' id='dc-bar-graph'>
 								<h4>Price Distribution</h4>
                 <span>
                   <a class="reset"
@@ -155,7 +150,7 @@
                   </a>
                 </span>
 							</div>
-              <div class="col-md-8 col-xs-12" id='dc-line-chart'>
+              <div class='span8' id='dc-line-chart'>
                 <h4>Price Varies with Time</h4>
                 <span>
                   <a class="reset"
@@ -167,9 +162,9 @@
               </div>
 						</div>
 					</div>
-					<div class="col-sm-4 col-xs-4">
+					<div class='remaining-graphs span4'>
 						<div class='row-fluid'>
-							<div class='col-md-12 col-xs-12' id='dc-row-chart3' style='color:black;'>
+							<div class='span12' id='dc-row-chart3' style='color:black;'>
 								<h4>Price by Neighbourhood
                   <span>
                     <a class="reset"
@@ -192,6 +187,7 @@
 		<div class='container'><footer class='text-center'></footer>
 		</div>
 	</div>
+
 
 <script type="text/javascript">
 
@@ -314,9 +310,9 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
                         return {days: 0, total: 0, avg: 0};
                     }
             );
-//var result = priceAvgByTimeGroup.top(Infinity);
-//console.log("result variable");
-//console.log(result);
+var result = priceByNeighbourhoodGroup.top(Infinity);
+console.log("result variable");
+console.log(result);
 
 // Plot
 // bubble  Chart
@@ -414,9 +410,9 @@ rowChart_1
     .xAxis().ticks(5) ;
 
 //bar chart
-barChart.width(210)
-  .height(210)
-  .margins({top: 5, right: 10, bottom: 40, left: 25})
+barChart.width(220)
+  .height(220)
+  .margins({top: 5, right: 5, bottom: 40, left: 25})
   .dimension(priceValue)
   .group(priceValueGroupCount)
   .centerBar(true)
@@ -448,17 +444,39 @@ lineChart.width(450)
 rowChart_3
    .width(250)
    .height(810)
+   .margins({top: 0, left: 5, right: 10, bottom: 20})
    .group(priceByNeighbourhoodGroup)
    .dimension(priceByNeighbourhood)
-   .valueAccessor(function (d) { return d.value.averages; })
-   .margins({top: 0, left: 5, right: 10, bottom: 20})
-   .colors(['#FFBB78','#AEC7E8', '#C5B0D5','#F7B6D2','#DBDB8D',
-            '#C5B0D5', '#F7B6D2','#C5B0D5','#AEC7E8','#C49C94',
-           '#98DF8A','#C7C7C7','#FF9896','#FFBB78','#C5B0D5',
-           '#AEC7E8', '#C5B0D5','#C7C7C7','#F7B6D2','#C49C94',
-           '#98DF8A','#FF9896','#98DF8A','#FFBB78','#FF9896',
-          '#FF9896','#C5B0D5','#C49C94','#FFBB78','#AEC7E8',
-          '#DBDB8D',])
+   .renderlet(function(chart){
+    chart.selectAll("g.row rect").attr("fill", function(d){
+        if(d.key=="Castro/Upper Market" | d.key== "Glen Park" | d.key== "Noe Valley"
+          | d.key== "Twin Peaks")
+            return "#AEC7E8";
+        else if(d.key=="Bernal Heights" | d.key=="Mission" | d.key=="Potrero Hill"
+          | d.key=="South of Market")
+            return "#FFBB78";
+        else if(d.key=="Chinatown" | d.key=="Downtown/Civic Center" | d.key=="Financial District"
+          | d.key=="Nob Hill" | d.key=="North Beach" | d.key=="Russian Hill" )
+            return "#C5B0D5";
+        else if(d.key=="Crocker Amazon" | d.key=="Excelsior" | d.key=="Outer Mission")
+            return "#F7B6D2";
+        else if(d.key=="Diamond Heights" | d.key=="West of Twin Peaks" )
+            return "#DBDB8D";
+        else if(d.key=="Golden Gate Park" | d.key=="Outer Richmond" | d.key=="Seacliff" )
+            return "#C49C94";
+        else if(d.key=="Inner Sunset" | d.key=="Outer Sunset" | d.key=="Parkside" )
+            return "#98DF8A";
+        else if(d.key=="Lakeshore" | d.key=="Ocean View"  )
+            return "#C7C7C7";
+        else if(d.key=="Marina" | d.key=="Pacific Heights"| d.key=="Presidio"
+              | d.key=="Presidio Heights"  )
+            return '#FF9896';
+        else
+            return '#FF9896';
+          });
+        })
+  .ordering(function(d){ return -d.value.averages; })
+  .valueAccessor(function (d) { return d.value.averages; })
   .xAxis().ticks(5);
 
   dc.renderAll();
