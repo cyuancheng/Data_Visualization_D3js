@@ -7,7 +7,6 @@
   <title>Data Visulization of Airbnb Price in SF</title>
 
   <script src="http://d3js.org/d3.v3.min.js"></script>
-
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
@@ -87,20 +86,7 @@
 
         <div class='row-fluid'>
 					<div class='remaining-graphs span8'>
-						<div class='row-fluid'>
-							<div class='span12' id='dc-bubble-graph'>
-								<h4>Price vs. Total Number of Review
-                  <span>
-                    <a class="reset"
-                      href="javascript:bubbleChart.filterAll();dc.redrawAll();"
-                      style="display: none;">
-                      reset
-                    </a>
-                  </span>
-                </h4>
-                <p> bubble size : count </p>
-							</div>
-						</div>
+
 						<div class='row-fluid'>
 							<div class='span4' id='dc-pie-graph'>
 								<h4>Room type
@@ -138,8 +124,24 @@
                 <p> x axis : price / night </p>
 							</div>
 						</div>
-						<!-- /other little graphs go here -->
-						<div class='row-fluid'>
+            <div class='row-fluid'>
+							<div class='span12' id='dc-bubble-graph'>
+								<h4>Price vs. Total Number of Review
+                  <span>
+                    <a class="reset"
+                      href="javascript:bubbleChart.filterAll();dc.redrawAll();"
+                      style="display: none;">
+                      reset
+                    </a>
+                  </span>
+                </h4>
+                <p> bubble size : count </p>
+							</div>
+						</div>
+
+            <!-- /other little graphs go here -->
+
+            <div class='row-fluid'>
 							<div class='span4' id='dc-bar-graph'>
 								<h4>Price Distribution</h4>
                 <span>
