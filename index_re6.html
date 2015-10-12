@@ -59,9 +59,9 @@
 
 <body>
 
-	<div class='container' id='main-container'>
+	<div class='container-fluid' id='main-container'>
 		<div class='content'>
-			<div class='container' style='font: 10px sans-serif;'>
+			<div class='container-fluid' style='font: 10px sans-serif;'>
 				<div class="dc-data-count" style="float: left;">
           <h2>Visualization of Airbnb Data in San Francisco
             <span>
@@ -447,6 +447,7 @@ rowChart_3
    .margins({top: 0, left: 5, right: 10, bottom: 20})
    .group(priceByNeighbourhoodGroup)
    .dimension(priceByNeighbourhood)
+   .colors(["#C7C7C7"])
    .renderlet(function(chart){
     chart.selectAll("g.row rect").attr("fill", function(d){
         if(d.key=="Castro/Upper Market" | d.key== "Glen Park" | d.key== "Noe Valley"
