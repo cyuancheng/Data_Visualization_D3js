@@ -7,8 +7,8 @@
   <title>Data Visulization of Airbnb Price in SF</title>
 
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.min.js"></script>
   <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
@@ -17,41 +17,52 @@
   <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'>
   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
 
+  <!-- <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'> -->
+  <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
+  <!-- Latest compiled and minified CSS -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+
+
 <style type="text/css"></style>
 
 <style>
-  h4 span {
-    font-size:12px;
-    font-weight:normal;
-    }
-  h2 {
-    float: right;
-    }
-  h2 span {
-    font-size:12px;
-    font-weight:normal;
-    }
-    #dc-bubble-graph .node { font-size: 12px; }
-    #dc-bubble-graph g.deselected text {
-    display: inherit !important;
-    }
-    #dc-bubble-graph .axis text {
-    font: 10px sans-serif;
-    }
-  /*  .dc-row-graph .axis path, .axis line {
-    stroke: none
-    } */
+h4 span {
+  font-size:12px;
+  font-weight:normal;
+  }
+h2 {
+  float: right;
+  }
+h2 span {
+  font-size:12px;
+  font-weight:normal;
+  }
+  #dc-bubble-graph .node { font-size: 12px; }
+  #dc-bubble-graph g.deselected text {
+  display: inherit !important;
+  }
+  #dc-bubble-graph .axis text {
+  font: 10px sans-serif;
+  }
+/*  .dc-row-graph .axis path, .axis line {
+  stroke: none
+  } */
 
-  body {
-      padding-top: 0px;
-    }
-  .span2, .span4, .span6, .span8, .span12, .container {
-	   border:1 px solid #dddddd;
-     margin-left:10px;
-   }
-   .span4{
-	    margin-left:10px;
-    }
+body {
+    padding-top: 0px;
+  }
+.span2, .span4, .span6, .span8, .span12, .container {
+   border:1 px solid #dddddd;
+   margin-left:10px;
+ }
+ .span4{
+    margin-left:10px;
+  }
 </style>
 
 </head>
@@ -312,9 +323,9 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
                         return {days: 0, total: 0, avg: 0};
                     }
             );
-var result = priceByNeighbourhoodGroup.top(Infinity);
-console.log("result variable");
-console.log(result);
+//var result = all.top(Infinity);
+//console.log("result variable");
+//console.log(result);
 
 // Plot
 // bubble  Chart
@@ -327,30 +338,37 @@ bubbleChart
     .group(areaValueGroup)
     .colors(['#AEC7E8', '#FFBB78', '#98DF8A', '#FF9896', '#C5B0D5',
             '#C49C94', '#F7B6D2', '#C7C7C7', '#DBDB8D', '#9EDAE5'])
-    .keyAccessor(function(p) {return p.value.avgAva ;})
-    .valueAccessor(function(p) {return p.value.avgPrice;})
-    .radiusValueAccessor(function(p) {return p.value.sumReview;})
-    .x(d3.scale.linear().domain([0,100 ]))
-    .y(d3.scale.linear().domain([0, 1500]))
-    .elasticX(true)
-    .xAxisPadding(5)
-    .elasticY(true)
-    .yAxisPadding(25)
-    .r(d3.scale.linear().domain([0, 5000000]))
-    .maxBubbleRelativeSize(0.1)
+    .keyAccessor(function(p) {return p.value.avgPrice ;})
+    .valueAccessor(function(p) {return p.value.avgAva;})
+    .radiusValueAccessor(function(p) {return Math.pow(p.value.sumReview,2);})
+    .x(d3.scale.linear().domain([0,300 ]))
+    .y(d3.scale.linear().domain([70, 105]))
+    //.elasticX(true)
+    //.xAxisPadding(50)
+    //.elasticY(true)
+    //.yAxisPadding(50)
+    .r(d3.scale.linear().domain([0, 10000000000000]))
+    .maxBubbleRelativeSize(0.05)
     .renderHorizontalGridLines(true)
     .renderVerticalGridLines(true)
+    //.renderLabel(true)
     .title(function(p) {
         return p.key
                 + "\n"
-                + "average price: " + numberFormat(p.value.avgPrice) + "\n"
-                + "average availability: " + numberFormat(p.value.avgAva) + "%" + "\n"
-                + "number of review: " + numberFormat(p.value.sumReview) + "\n"
-                + "count:" + numberFormat(p.value.count);
+                + "average price: $" + Math.round(numberFormat(p.value.avgPrice)) + "\n"
+                + "average availability: " + Math.round(numberFormat(p.value.avgAva)) + "%" + "\n"
+                + "number of review: " + Math.round(numberFormat(p.value.sumReview)) + "\n"
+                + "number of accommodation places:" + Math.round(numberFormat(p.value.count));
     })
-    .xAxisLabel('Average Room Availability (%)')
-    .yAxisLabel('Average Price / Night (%)')
-    .xAxis().ticks(8);
+    .yAxisLabel('Average Room Availability (%)')
+    .xAxisLabel('Average Price / Night')
+    .xAxis().tickFormat(function (v) {
+            return '$' + v ;
+        });
+
+
+    //
+
 
 //pie chart
 pieChart.width(200)
@@ -389,12 +407,14 @@ rowChart_1
     .title(function(p) {
         return p.key
                 + "\n"
-                + "average price: " + numberFormat(p.value.averages);
+                + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
     .x(d3.scale.linear().range([0,200]).domain([0,200]))
     .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
             '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9'])
-    .xAxis().ticks(5);
+    .xAxis().ticks(5).tickFormat(function (v) {
+            return '$' + v ;
+        });
 rowChart_1.xAxis().scale(rowChart_1.x());
 // row chart day of week
  rowChart_2
@@ -417,12 +437,14 @@ rowChart_1.xAxis().scale(rowChart_1.x());
     .title(function(p) {
         return p.key
                 + "\n"
-                + "average price: " + numberFormat(p.value.averages);
+                + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
     .x(d3.scale.linear().range([0,200]).domain([0,200]))
     .colors(['#5ab94e',  '#74c56a', '#8ed086', '#a9dba2', '#c3e6bf',
               '#ddf1db', '#ddf1db'])
-    .xAxis().ticks(5) ;
+    .xAxis().ticks(5).tickFormat(function (v) {
+            return '$' + v ;
+        }) ;
 rowChart_2.xAxis().scale(rowChart_2.x());
 
 //bar chart
@@ -437,7 +459,10 @@ barChart.width(220)
   .elasticY(true)
   .xAxisLabel('Price / Night')
   .yAxisLabel('Count')
-  .xAxis().tickValues([0, 100, 200, 300, 400, 500]);
+  .xAxis().tickValues([0, 100, 200, 300, 400, 500])
+  .tickFormat(function (v) {
+          return '$' + v ;
+      });
 
 //lineChart
 lineChart.width(450)
@@ -456,16 +481,22 @@ lineChart.width(450)
     chart.selectAll('g.x text')
     .attr('transform', 'translate(-10,10) rotate(315)');
     })
+  .yAxis().tickFormat(function (v) {
+            return '$' + v ;
+        });
 
 // row chart day of week
+
 rowChart_3
    .width(245)
    .height(810)
-   .margins({top: 0, left: 5, right: 20, bottom: 20})
    .group(priceByNeighbourhoodGroup)
    .dimension(priceByNeighbourhood)
+   .ordering(function(d){ return -d.value.averages; })
+   .valueAccessor(function (d) { return d.value.averages; })
+    .margins({top: 0, left: 5, right: 20, bottom: 20})
    //.x(d3.scale.linear().range([0,300]).domain([0,300]))
-   .colors(["#C7C7C7"])
+   .colors(["#FFFFFF"])
    .renderlet(function(chart){
     chart.selectAll("g.row rect").attr("fill", function(d){
         if(d.key=="Castro/Upper Market" | d.key== "Glen Park" | d.key== "Noe Valley"
@@ -494,16 +525,27 @@ rowChart_3
             return '#FF9896';
           });
         })
-  .ordering(function(d){ return -d.value.averages; })
-  .valueAccessor(function (d) { return d.value.averages; })
+//        .renderlet(function (chart) {
+//                         bubbleChart.filter(chart.filter());
+//                     })
+  //      .on("filtered", function (chart) {
+  //                   dc.events.trigger(function () {
+  //                   bubbleChart.filter(chart.filter());
+  //                       });
+  //                               })
+  //.renderLabel(true)
   .title(function(p) {
       return p.key
               + "\n"
-              + "average price: " + numberFormat(p.value.averages);
+              + "average price: $" + Math.round(numberFormat(p.value.averages));
   })
   .elasticX(false)
   //.x(d3.scale.linear().range([0,300]).domain([0,300]))
-  .xAxis().ticks(5);
+  .xAxis().ticks(5) .tickFormat(function (v) {
+          return '$' + v ;
+      });
+      //.renderLabel(true)
+
 //rowChart_3.xAxis().scale(rowChart_3.x());
 
   dc.renderAll();
