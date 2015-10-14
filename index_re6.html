@@ -7,8 +7,8 @@
   <title>Data Visulization of Airbnb Price in SF</title>
 
   <script src="http://d3js.org/d3.v3.min.js"></script>
-
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.min.js"></script>
   <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
@@ -16,17 +16,6 @@
 
   <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'>
   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
-
-  <!-- <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'> -->
-  <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
-  <!-- Latest compiled and minified CSS -->
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-
 
 <style type="text/css"></style>
 
@@ -103,7 +92,7 @@ body {
 								<h4>Room type
                   <span>
                     <a class="reset"
-                      href="javascript:pieChart.filterAll();dc.redrawAll();"
+                      href="javascript:bubbleChart.filterAll();dc.redrawAll();"
                       style="display: none;">
                       reset
                     </a>
@@ -140,7 +129,7 @@ body {
 								<h4>Room Price vs. Availability
                   <span>
                     <a class="reset"
-                      href="javascript:bubbleChart.filterAll();dc.redrawAll();"
+                      href="javascript:boxChart.filterAll();dc.redrawAll();"
                       style="display: none;">
                       reset
                     </a>
@@ -234,6 +223,21 @@ var priceValue = facts.dimension(function (d) {return d.median_price;});
 var priceValueGroupCount = priceValue.group().reduceCount();
 
 var areaValue = facts.dimension(function (d) { return d.Area_SF; });
+
+var areaArrayGroup     = areaValue.group().reduce(
+  function(p,v) {
+    p.push(Number(v.median_price));
+    return p;
+  },
+  function(p,v) {
+    p.splice(p.indexOf(Number(v.median_price)), 1);
+    return p;
+  },
+  function() {
+    return [];
+  }
+);
+
 var areaValueGroup = areaValue.group().reduce(
         /* callback for when data is added to the current filter results */
         function (p, v) {
@@ -327,6 +331,7 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
 //console.log("result variable");
 //console.log(result);
 
+
 // Plot
 // bubble  Chart
 bubbleChart
@@ -342,7 +347,9 @@ bubbleChart
     .valueAccessor(function(p) {return p.value.avgAva;})
     .radiusValueAccessor(function(p) {return Math.pow(p.value.sumReview,2);})
     .x(d3.scale.linear().domain([0,300 ]))
-    .y(d3.scale.linear().domain([70, 105]))
+    .y(d3.scale.linear().domain([65, 105]))
+    .mouseZoomable(true)
+    //.rangeChart(lineChart)
     //.elasticX(true)
     //.xAxisPadding(50)
     //.elasticY(true)
@@ -351,7 +358,7 @@ bubbleChart
     .maxBubbleRelativeSize(0.05)
     .renderHorizontalGridLines(true)
     .renderVerticalGridLines(true)
-    //.renderLabel(true)
+    .renderLabel(true)
     .title(function(p) {
         return p.key
                 + "\n"
