@@ -20,6 +20,8 @@ I took the 2015 Airbnb data in San Francisco from [Inside Airbnb](http://insidea
 6 Entire home/apt Central Castro/Upper Market 1/14/16     1 Thurs        207.5    74.10959    1976
  ```
  
+1. initial design.  (see [here])
+
 The dataset contains lots of information. I chose to focus on the analysis of how the price varies with room type, location, and time. I used a pie chart to present room type data, since there are only three room types (Entire home/apt, Private room, and Shared room). I then used two row charts to present "price by day" and "price by month". To understand how the price varies with availability, location, and number of reviews, I decided to use a bubble chart to visualize these data, with the price on x-axis, availability on y-axis, and the total number of the reviews in specific location for the bubble area. I also used a bar chart to present the price distribution, and a line chart to present the price varies with time. Finally, I used a row chart on the right to show the price changes in each neighborhood. For this row chart, I sorted the price from high to low, so reader can immediately see the price ordering in the neighborhood under specific conditions. 
 
 Because this project contains seven graphs, I used Bootstrap to develop and design the HTML, CSS, and JavaScript framework. I used [dc.js](https://dc-js.github.io/dc.js/) and [crossfilter](http://square.github.io/crossfilter/) to make interactive dashboard.
