@@ -135,7 +135,7 @@ body {
                     </a>
                   </span>
                 </h4>
-                <p> bubble size : total number of review </p>
+                <p> bubble area : total number of review </p>
 							</div>
 						</div>
 
@@ -348,10 +348,11 @@ bubbleChart
     .radiusValueAccessor(function(p) {return Math.pow(p.value.sumReview,2);})
     .x(d3.scale.linear().domain([0,300 ]))
     .y(d3.scale.linear().domain([65, 105]))
-    .mouseZoomable(true)
+
     //.rangeChart(lineChart)
-    //.elasticX(true)
-    //.xAxisPadding(50)
+    .elasticX(true)
+    .xAxisPadding(7)
+    .mouseZoomable(true)
     //.elasticY(true)
     //.yAxisPadding(50)
     .r(d3.scale.linear().domain([0, 10000000000000]))
@@ -457,7 +458,7 @@ rowChart_2.xAxis().scale(rowChart_2.x());
 //bar chart
 barChart.width(220)
   .height(220)
-  .margins({top: 5, right: 5, bottom: 40, left: 25})
+  .margins({top: 5, right: 5, bottom: 40, left: 30})
   .dimension(priceValue)
   .group(priceValueGroupCount)
   .centerBar(true)
@@ -475,7 +476,7 @@ barChart.width(220)
 lineChart.width(450)
   .height(200)
   .transitionDuration(1000)
-  .margins({top: 5, right: 5, bottom: 40, left: 30})
+  .margins({top: 5, right: 5, bottom: 40, left: 35})
   .dimension(priceByTime)
   .group(priceAvgByTimeGroup)
   .valueAccessor(function(p) {return p.value.avg;})
