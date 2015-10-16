@@ -16,6 +16,14 @@
 
   <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'>
   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <style type="text/css"></style>
 
@@ -64,13 +72,9 @@ body {
 	<div class='container-fluid' id='main-container'>
 		<div class='content'>
 			<div class='container-fluid' style='font: 12px sans-serif;'>
-				<div class="dc-data-count" style="float: left;">
+		      <div class="dc-data-count" style="float: left;">
           <h2>Visualization of Airbnb Data in San Francisco
             <span>
-            <!--  <span class="filter-count"></span>
-              selected out of
-              <span class="total-count"></span>
-              records |-->
               <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
             </span>
           </h2>
@@ -89,10 +93,10 @@ body {
         </div>
 
         <div class='row-fluid'>
-					<div class='remaining-graphs span8'>
+					<div class='remaining-graphs col-md-8'>
 
 						<div class='row-fluid'>
-							<div class='span4' id='dc-pie-graph'>
+							<div class='col-md-4' id='dc-pie-graph'>
 								<h4>Room type
                   <span>
                     <a class="reset"
@@ -103,7 +107,7 @@ body {
                   </span>
                 </h4>
 							</div>
-							<div class='span4' id='dc-row-chart1'>
+							<div class='col-md-4' id='dc-row-chart1'>
 								<h4> Price by Month
                   <span>
                     <a class="reset"
@@ -115,7 +119,7 @@ body {
                 </h4>
                 <p> x axis : average price / night </p>
 							</div>
-							<div class='span4' id='dc-row-chart2'>
+							<div class='col-md-4' id='dc-row-chart2'>
 								<h4>Price by day
                   <span>
                     <a class="reset"
@@ -129,7 +133,7 @@ body {
 							</div>
 						</div>
             <div class='row-fluid'>
-							<div class='span12' id='dc-bubble-graph'>
+							<div class='col-md-12' id='dc-bubble-graph'>
 								<h4>Price vs. Availability
                   <span>
                     <a class="reset"
@@ -148,7 +152,7 @@ body {
             <!-- /other little graphs go here -->
 
             <div class='row-fluid'>
-							<div class='span4' id='dc-bar-graph'>
+							<div class='col-md-4' id='dc-bar-graph'>
 								<h4>Price Distribution</h4>
                 <span>
                   <a class="reset"
@@ -158,7 +162,7 @@ body {
                   </a>
                 </span>
 							</div>
-              <div class='span8' id='dc-line-chart'>
+              <div class='col-md-8' id='dc-line-chart'>
                 <h4>Price Varies with Time</h4>
                 <span>
                   <a class="reset"
@@ -170,9 +174,9 @@ body {
               </div>
 						</div>
 					</div>
-					<div class='remaining-graphs span4'>
+					<div class='remaining-graphs col-md-4'>
 						<div class='row-fluid'>
-							<div class='span12' id='dc-row-chart3' style='color:black;'>
+							<div class='col-md-12' id='dc-row-chart3' style='color:black;'>
 								<h4>Price by Neighborhood
                   <span>
                     <a class="reset"
@@ -341,7 +345,7 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
 // Plot
 // bubble  Chart
 bubbleChart
-    .width(700)
+    .width(650)
     .height(300)
     .transitionDuration(1000)
     .margins({top: 5, right: 5, bottom: 30, left: 30})
