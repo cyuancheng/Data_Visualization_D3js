@@ -1,103 +1,108 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-  <!--<meta http-equiv="content-type" content="text/html; charset=UTF8"> -->
+  <!--HTML coding, load required js or css files> -->
   <meta name="viewport" content="width=device-width,
   initial-scale=1, maximum-scale=1, user-scalable=no">
+
   <title>Data Visulization of Airbnb Price in SF</title>
 
+<!--d3.js -->
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+<!--dc.js + dc.css -->
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.min.js"></script>
-  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
-
-  <link href='stylesheets/bootstrap.min.css' rel='stylesheet' type='text/css'>
   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
-  <!-- Latest compiled and minified CSS -->
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
+<!-- crossfilter.js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+<!--bootstrap-->
+  <script src='javascripts/jquery-1.9.1.min.js' type='text/javascript'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <style type="text/css"></style>
 
-<style type="text/css"></style>
-
+  <!--CSS coding> -->
 <style>
-h4 span {
-  font-size:12px;
-  font-weight:normal;
-  }
-h2 {
-  float: right;
-  }
-h2 span {
-  font-size:12px;
-  font-weight:normal;
-  }
-  #dc-bubble-graph .node { font-size: 12px; }
-  #dc-bubble-graph g.deselected text {
-  display: inherit !important;
-  }
-  #dc-bubble-graph .axis text {
-  font: 10px sans-serif;
-  }
-  .dc-row-graph .axis path, .axis line {
 
-  stroke: lightgrey;
-  stroke-width: 1;
+  h2 {
+    float: center;
+      }
+/*adjust the font size of reset buttons for each chart*/
+  h4 span {
+    font-size:12px;
+    font-weight:normal;
+    }
+/*adjust the font size of reset button for the title*/
+  h2 span {
+    font-size:12px;
+    font-weight:normal;
+    }
+/* adjust margin for pie chart*/
+  .chart {
+    margin-top: 100px;
+margin-bottom: 100px;
+margin-right: 150px;
+margin-left: 50px;;
+          }
+/* adjust font size for bubble graph*/
+    #dc-bubble-graph .node { font-size: 12px; }
+    #dc-bubble-graph g.deselected text {
+      display: inherit !important;
+    }
+    #dc-bubble-graph .axis text {
+      font: 10px sans-serif;
+    }
 
-  }
+/* adjust grid line thickness for row graph*/
+    .dc-row-graph .axis path, .axis line {
+    stroke: lightgrey; /*color*/
+    stroke-width: 1;
+    }
 
-body {
-    padding-top: 0px;
-  }
-.span2, .span4, .span6, .span8, .span12, .container {
-   border:1 px solid #dddddd;
-   margin-left:10px;
- }
- .span4{
-    margin-left:10px;
-  }
 </style>
 
 </head>
 
+<!--HTML layout-->
 <body>
 
 	<div class='container-fluid' id='main-container'>
 		<div class='content'>
 			<div class='container-fluid' style='font: 12px sans-serif;'>
 		      <div class="dc-data-count" style="float: left;">
-          <h2>Visualization of Airbnb Data in San Francisco
+          <h2>Visualization of Airbnb Data in San Francisco in 2015
             <span>
-              <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+              <!-- if a link with css class "reset" is present,  the chart
+                will automatically turn it on/off based on whether there is filter
+                set on this chart  -->
+              <a class = "reset" href="javascript:dc.filterAll(); dc.renderAll();"
+              style="dislay:none;">Reset All</a>
+
             </span>
           </h2>
 
-        <p>
+          <p>
 
-          I create a data visualization using d3.js to explore the accommodation places listed on
-          <a href="https://www.airbnb.com">Airbnb</a>
-          in San Francisco. <br>
-          Click through each chart to see how the price pattern changes with room type, time, and/or location.
-          <br>
-          <i>Click color box to select. Click again to reset. </i>
-          (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
-        <!--  </font> -->
-        <p>
+            I create a data visualization using d3.js to explore the prices of accommodation places that were listed on
+            <a href="https://www.airbnb.com">Airbnb</a>
+            in San Francisco <br> between May 2015 and May 2016. (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)<br><br>
+            Click through each chart to see how the price pattern changes with room type, time, and/or location.
+            <br>
+            <i>Click color box to select. Click again to reset. </i>
+
+          <p>
         </div>
 
         <div class='row-fluid'>
 					<div class='remaining-graphs col-md-8'>
 
 						<div class='row-fluid'>
-							<div class='col-md-4' id='dc-pie-graph'>
-								<h4>Room type
+							<!-- /pie chart -->
+              <div class='col-md-4' id='dc-pie-graph'>
+								<h4>Room Type
                   <span>
                     <a class="reset"
                       href="javascript:pieChart.filterAll();dc.redrawAll();"
@@ -106,8 +111,13 @@ body {
                     </a>
                   </span>
                 </h4>
+                  <div id="data-count">
+                    <span class="filter-count"></span> selected rooms
+                    out of <br> <span class="total-count"></span> listed rooms
+                  </div>
 							</div>
-							<div class='col-md-4' id='dc-row-chart1'>
+							<!-- /row chart (price by month) -->
+              <div class='col-md-4' id='dc-row-chart1'>
 								<h4> Price by Month
                   <span>
                     <a class="reset"
@@ -119,7 +129,8 @@ body {
                 </h4>
                 <p> x axis : average price / night </p>
 							</div>
-							<div class='col-md-4' id='dc-row-chart2'>
+              <!-- /row chart (price by day) -->
+              <div class='col-md-4' id='dc-row-chart2'>
 								<h4>Price by day
                   <span>
                     <a class="reset"
@@ -133,8 +144,9 @@ body {
 							</div>
 						</div>
             <div class='row-fluid'>
-							<div class='col-md-12' id='dc-bubble-graph'>
-								<h4>Price vs. Availability
+							<!-- /bubble chart  -->
+              <div class='col-md-12' id='dc-bubble-graph'>
+								<h4>Price vs. Availability by Area
                   <span>
                     <a class="reset"
                       href="javascript:bubbleChart.filterAll();dc.redrawAll();"
@@ -145,14 +157,13 @@ body {
                 </h4>
                 <p>
                   <i>Click bubble to select. Click again to reset.</i>
-                  (bubble area : total number of review) </p>
+                  (color code represents area, bubble area : total number of review) </p>
 							</div>
 						</div>
-
             <!-- /other little graphs go here -->
-
             <div class='row-fluid'>
-							<div class='col-md-4' id='dc-bar-graph'>
+							<!-- /bar chart (price distribution) -->
+              <div class='col-md-4' id='dc-bar-graph'>
 								<h4>Price Distribution</h4>
                 <span>
                   <a class="reset"
@@ -162,6 +173,7 @@ body {
                   </a>
                 </span>
 							</div>
+              <!-- /line chart (price varies with time) -->
               <div class='col-md-8' id='dc-line-chart'>
                 <h4>Price Varies with Time</h4>
                 <span>
@@ -174,7 +186,8 @@ body {
               </div>
 						</div>
 					</div>
-					<div class='remaining-graphs col-md-4'>
+					<!-- /row chart (price by neighborhood) -->
+          <div class='remaining-graphs col-md-4'>
 						<div class='row-fluid'>
 							<div class='col-md-12' id='dc-row-chart3' style='color:black;'>
 								<h4>Price by Neighborhood
@@ -186,7 +199,8 @@ body {
                     </a>
                   </span>
                 </h4>
-                 <p> x axis : average price / night </p>
+                 <p> x axis : average price / night
+                   <br>(color code represents area)</p>
 							</div>
 						</div>
 					</div>
@@ -196,15 +210,15 @@ body {
 		</div>
 	</div>
 	<div id='footer'>
-		<div class='container'><footer class='text-center'></footer>
+		<div class='container-fluid'><footer class='text-center'></footer>
 		</div>
 	</div>
 
+<!--javascipt coding-->
 
 <script type="text/javascript">
 
-// 	Create the dc.js chart objects & link to div
-
+/*** 	Create the dc.js chart objects & link to div ***/
 var bubbleChart = dc.bubbleChart("#dc-bubble-graph");
 var pieChart = dc.pieChart("#dc-pie-graph");
 var rowChart_1 = dc.rowChart("#dc-row-chart1");
@@ -213,10 +227,13 @@ var barChart = dc.barChart("#dc-bar-graph");
 var lineChart = dc.lineChart("#dc-line-chart")
 var rowChart_3 = dc.rowChart("#dc-row-chart3");
 
-//  Load data from a tsv file
+// set dc.js version in title
+d3.selectAll("#version").text(dc.version);
+
+/***  Load data from a tsv file ***/
 d3.tsv("data/data_SF_month.tsv", function (airbnb_data) {
 
-  var dateFormat = d3.time.format("%m/%d/%y");
+  var dateFormat = d3.time.format("%m/%d/%y"); //adjust time format
   var numberFormat = d3.format(".2f");
   var monthNameFormat = d3.time.format("%b"); //month format
 
@@ -225,64 +242,12 @@ d3.tsv("data/data_SF_month.tsv", function (airbnb_data) {
       e.month1 = monthNameFormat(e.dd); //month format
   });
 
-// Run the data through crossfilter and load 'facts'
-var facts = crossfilter(airbnb_data);
-var all = facts.groupAll();
+/*** Run the data through crossfilter and load 'facts' ***/
 
-var priceValue = facts.dimension(function (d) {return d.median_price;});
-var priceValueGroupCount = priceValue.group().reduceCount();
+var facts = crossfilter(airbnb_data); //feed it through crossfilter
+var all = facts.groupAll(); // define group all for counting
 
-var areaValue = facts.dimension(function (d) { return d.Area_SF; });
-
-var areaArrayGroup     = areaValue.group().reduce(
-  function(p,v) {
-    p.push(Number(v.median_price));
-    return p;
-  },
-  function(p,v) {
-    p.splice(p.indexOf(Number(v.median_price)), 1);
-    return p;
-  },
-  function() {
-    return [];
-  }
-);
-
-var areaValueGroup = areaValue.group().reduce(
-        /* callback for when data is added to the current filter results */
-        function (p, v) {
-            ++p.count;
-            p.sumPrice += Number(v.median_price);
-            p.sumAva += Number(v.median_aval);
-            p.avgPrice = p.sumPrice / p.count;
-            p.avgAva = p.sumAva / p.count;
-            p.sumReview += Number(v.reviews);
-            return p;
-        },
-        /* callback for when data is removed from the current filter results */
-        function (p, v) {
-            --p.count;
-            p.sumPrice -= Number(v.median_price);
-            p.sumAva -= Number(v.median_aval);
-            p.avgPrice = p.sumPrice / p.count;
-            p.avgAva = p.sumAva / p.count;
-            p.sumReview -= Number(v.reviews);
-            return p;
-        },
-        /* initialize p */
-        function () {
-            return {
-                count: 0,
-                sumPrice: 0,
-                sumAva: 0,
-                avgPrice: 0,
-                avgAva: 0,
-                sumReview: 0,
-                    };
-        }
-    );
-
-//function for taking average*****
+/**** function for taking average ****/
 function reduceAddAvg(attr) {
         return function(p,v) {
               ++p.count
@@ -304,27 +269,38 @@ function reduceInitAvg() {
     }
 //******************
 
+/*** Define dimension and map/reduce to group ***/
+
+//function for making pie chart
+var RoomType = facts.dimension(function (d) { return d.room_type; });
+var RoomTypeGroup = RoomType.group();
+
+//function for making row chart for price by month
 var priceByMonth = facts.dimension(function(d) { return d.month1; });
 var priceByMonthGroup = priceByMonth.group()
           .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
 
+//function for making row chart for price by day
 var priceByDay = facts.dimension(function(d) { return d.day; });
 var priceByDayGroup = priceByDay.group()
           .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
 
+//function for making row chart for price by neighborhood
 var priceByNeighbourhood   = facts.dimension(function(d) { return d.neighbourhood; });
 var priceByNeighbourhoodGroup = priceByNeighbourhood.group()
-                    .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
+          .reduce(reduceAddAvg('median_price'), reduceRemoveAvg('median_price'), reduceInitAvg);
 
-var RoomType = facts.dimension(function (d) { return d.room_type; });
-var RoomTypeGroup = RoomType.group();
+//function for making bar chart for price distribution
+var priceValue = facts.dimension(function (d) {return d.median_price;});
+var priceValueGroupCount = priceValue.group().reduceCount();
 
+//function for making line chart for price varies with time
 var priceByTime = facts.dimension(function(d) { return d.dd; });
 var priceAvgByTimeGroup = priceByTime.group().reduce(
                     function (p, v) {
                         ++p.days;
-                        p.total += Number(v.median_price);
-                        p.avg = Math.round(p.total / p.days);
+                        p.total += Number(v.median_price); // sum of median price
+                        p.avg = Math.round(p.total / p.days); //average price by day
                         return p;
                     },
                     function (p, v) {
@@ -334,44 +310,99 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
                         return p;
                     },
                     function () {
-                        return {days: 0, total: 0, avg: 0};
+                        return {days: 0, total: 0, avg: 0}; //initialize to 0
                     }
             );
+
+//function for making bubble chart
+var areaValue = facts.dimension(function (d) { return d.Area_SF; });
+
+var areaArrayGroup = areaValue.group().reduce(
+  function(p,v) {
+    p.push(Number(v.median_price));
+    return p;
+  },
+  function(p,v) {
+    p.splice(p.indexOf(Number(v.median_price)), 1);
+    return p;
+  },
+  function() {
+    return [];
+  }
+);
+
+var areaValueGroup = areaValue.group().reduce(
+        // callback for when data is added to the current filter results
+        function (p, v) {
+            ++p.count;
+            p.sumPrice += Number(v.median_price);
+            p.sumAva += Number(v.median_aval);
+            p.avgPrice = p.sumPrice / p.count;
+            p.avgAva = p.sumAva / p.count;
+            p.sumReview += Number(v.reviews);
+            return p;
+        },
+        // callback for when data is removed from the current filter results
+        function (p, v) {
+            --p.count;
+            p.sumPrice -= Number(v.median_price);
+            p.sumAva -= Number(v.median_aval);
+            p.avgPrice = p.sumPrice / p.count;
+            p.avgAva = p.sumAva / p.count;
+            p.sumReview -= Number(v.reviews);
+            return p;
+        },
+        // initialize p
+        function () {
+            return {
+                count: 0,
+                sumPrice: 0,
+                sumAva: 0,
+                avgPrice: 0,
+                avgAva: 0,
+                sumReview: 0,
+                    };
+        }
+    );
+//****** code testing *******************
 //var result = all.top(Infinity);
 //console.log("result variable");
 //console.log(result);
+//**************************
 
+/**** Create the Visualisations ****/
 
-// Plot
-// bubble  Chart
-bubbleChart
-    .width(650)
-    .height(300)
-    .transitionDuration(1000)
-    .margins({top: 5, right: 5, bottom: 30, left: 30})
-    .dimension(areaValue)
-    .group(areaValueGroup)
+/* Create a data count widget and use the given css selector as anchor.*/
+dc.dataCount("#data-count")
+    .dimension(facts) // set dimension to all data
+    .group(all); // set group to ndx.groupAll()
+
+/** bubble  Chart ***/
+/* When a chart belongs to a specific group, any interaction with such chart will
+ only trigger redraw  on other charts within the same chart group.*/
+bubbleChart.width(650) //define chart width
+    .height(300) //define chart height
+    .transitionDuration(1000) //define chart transition duration
+    .margins({top: 5, right: 5, bottom: 30, left: 30}) //set margin
+    .dimension(areaValue) //set dimension
+    .group(areaValueGroup) //set group
     .colors(['#AEC7E8', '#FFBB78', '#98DF8A', '#FF9896', '#C5B0D5',
-            '#C49C94', '#F7B6D2', '#7F7F7F', '#DBDB8D', '#9EDAE5'])
-    .keyAccessor(function(p) {return p.value.avgPrice ;})
-    .valueAccessor(function(p) {return p.value.avgAva;})
-    .radiusValueAccessor(function(p) {return Math.pow(p.value.sumReview,2);})
-    .x(d3.scale.linear().domain([0,300 ]))
-    .y(d3.scale.linear().domain([68, 102]))
-
-    //.rangeChart(lineChart)
-    .elasticX(true)
-    .xAxisPadding(7)
-    .mouseZoomable(true)
-    //.elasticY(true)
-    //.yAxisPadding(50)
-    .r(d3.scale.linear().domain([0, 10000000000000]))
-    .maxBubbleRelativeSize(0.05)
-    .renderHorizontalGridLines(true)
-    .renderVerticalGridLines(true)
-    .renderLabel(true)
+            '#C49C94', '#F7B6D2', '#7F7F7F', '#DBDB8D', '#9EDAE5']) //set color for each area
+    .keyAccessor(function(p) {return p.value.avgPrice ;}) //set x axis
+    .valueAccessor(function(p) {return p.value.avgAva;}) //set y axis
+    .radiusValueAccessor(function(p) {return Math.pow(p.value.sumReview,2);}) //set bubble area
+    .x(d3.scale.linear().domain([0,300 ])) //set x scale
+    .y(d3.scale.linear().domain([68, 102])) //set y scale
+    .elasticX(true) // rescale x axis to fit data
+    .xAxisPadding(7) //set padding on x axis when elasticX is true
+    //.mouseZoomable(true) // zoom in/out x aixs
+    .r(d3.scale.linear().domain([0, 10000000000000])) // set radis scale
+    .maxBubbleRelativeSize(0.05) // rescale bubble size
+    .renderHorizontalGridLines(true) // add grid lines on y axis
+    .renderVerticalGridLines(true) // add grid lines on x axis
+    .renderLabel(true) // add render label
     .title(function(p) {
-        return p.key
+        return p.key // mouseover
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.avgPrice)) + "\n"
                 + "average availability: " + Math.round(numberFormat(p.value.avgAva)) + "%" + "\n"
@@ -381,124 +412,124 @@ bubbleChart
     .yAxisLabel('Average Room Availability (%)')
     .xAxisLabel('Average Price / Night')
     .xAxis().tickFormat(function (v) {
-            return '$' + v ;
+            return '$' + v ; // show $ symbol on x labels
         });
 
+/** pie chart **/
+/* Create a pie chart and use the given css selector as anchor. */
 
-    //
-
-
-//pie chart
-pieChart.width(200)
-  .height(200)
-  .transitionDuration(1000)
-  .radius(100)
+pieChart.width(200) //define chart width
+  .height(200) //define chart height
+  .transitionDuration(1000) //define chart transition time
+  .radius(100) //define pie radius
   .innerRadius(0)
-  .label(function(d) { return d.data.key + "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; })
+  .label(function(d) { return d.data.key +
+     "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; }) //use data.key as its labels
   .renderLabel(true)
-  .title(function(d) { return d.data.key + "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; })
+  .title(function(d) { return d.data.key +
+    "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; }) //use data.value as its title
   .renderTitle(true)
-  .dimension(RoomType)
-  .group(RoomTypeGroup)
-  .colors(['#729ECE', '#FF9E4A', '#67BF5C']);
+  .dimension(RoomType) //set dimension
+  .group(RoomTypeGroup) //set group
+  .colors(['#729ECE', '#FF9E4A', '#67BF5C']); //define color arry for slices
 
-rowChart_1
-    .width(220)
-    .height(220)
-    .transitionDuration(1000)
-    .margins({top:5, right: 5, bottom: 20, left: 5})
-    .group(priceByMonthGroup)
-    .dimension(priceByMonth)
-    .gap(1)
-    .valueAccessor(function (d) { return d.value.averages;})
+/**row chart for price by month**/
+
+rowChart_1.width(220) // define chart width
+    .height(220) // define chart height
+    .transitionDuration(1000) // define chart transition duration
+    .margins({top:5, right: 5, bottom: 20, left: 5}) // set margin
+    .group(priceByMonthGroup) // set group
+    .dimension(priceByMonth) // set dimension
+    .gap(1) // set gap between rows
+    .valueAccessor(function (d) { return d.value.averages;}) // set x axis
     .title(function(d){return d.key;})
-    .ordering(function (d) {
+    .ordering(function (d) {  // show the title on the row
       var order = {
     'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3,
     'May': 4, 'Jun': 5, 'Jul': 6, 'Aug':7,
     'Sep':8, 'Oct':9, 'Nov':10, 'Dec':11
     }
-      return order[d.key];
+      return order[d.key]; //sort the month
     })
-    //.elasticX(true)
-    //.x().range([0, 200])
-    .title(function(p) {
+    .title(function(p) { // show month and average price by mouthover
         return p.key
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
-    //.x(d3.scale.linear().domain([0,300]).range([0,300]))
     .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
-            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9'])
+            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9']) //set color
     .xAxis().ticks(5).tickFormat(function (v) {
-            return '$' + v ;
+            return '$' + v ; // add $ symble on x labels
         });
-//rowChart_1.xAxis().scale(rowChart_1.x());
-// set fixed x-axis scale
+//rescale x-axis
 rowChart_1.x(d3.scale.linear().range([0,(rowChart_1.width()-50)]).domain([0,300]));
 rowChart_1.xAxis().scale(rowChart_1.x());
 
-// row chart day of week
-rowChart_2
-    .width(220)
-    .height(220)
-    .group(priceByDayGroup)
-    .dimension(priceByDay)
-    .valueAccessor(function (d) { return d.value.averages; })
-    .margins({top: 5, left: 5, right: 5, bottom: 20})
-    .gap(1)
-    .title(function(d){return d.key;})
+/**row chart for price by day**/
+
+rowChart_2.width(220) //define chart width
+    .height(220) // define chart height
+    .transitionDuration(1000) //define chart transition duration
+    .group(priceByDayGroup) //set group
+    .dimension(priceByDay) // set dimension
+    .valueAccessor(function (d) { return d.value.averages; }) //set x axis
+    .margins({top: 5, left: 5, right: 5, bottom: 20}) //set margein
+    .gap(1) // set gap between rows
+    .title(function(d){return d.key;}) // show title on the row
     .ordering(function (d) {
       var order = {
     'Mon': 0, 'Tues': 1, 'Wed': 2, 'Thurs': 3,
     'Fri': 4, 'Sat': 5, 'Sun': 6
     }
-      return order[d.key];
+      return order[d.key]; // sort the days
     })
-    //.elasticX(true)
-    .title(function(p) {
+    .title(function(p) { //show day and average price by mouseover
         return p.key
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
-    //.x(d3.scale.linear().range([0,300]).domain([0,300]))
     .colors(['#5ab94e',  '#74c56a', '#8ed086', '#a9dba2', '#c3e6bf',
-              '#ddf1db', '#ddf1db'])
+              '#ddf1db', '#ddf1db']) //set color
     .xAxis().ticks(5).tickFormat(function (v) {
-            return '$' + v ;
+            return '$' + v ; //show $ symbol on x labels
         }) ;
 // set fixed x-axis scale
 rowChart_2.x(d3.scale.linear().range([0,(rowChart_2.width()-50)]).domain([0,300]));
 rowChart_2.xAxis().scale(rowChart_2.x());
 
-//bar chart
-barChart.width(220)
-  .height(220)
-  .margins({top: 5, right: 5, bottom: 40, left: 30})
-  .dimension(priceValue)
-  .group(priceValueGroupCount)
-  .centerBar(true)
-  .x(d3.scale.linear().domain([0, 350]))
-  .xUnits(function(){return 30;})
-  .elasticY(true)
+/** bar chart **/
+/* Create a bar chart and use the given css selector as anchor. */
+
+barChart.width(220) //define chart width
+  .height(220) //define chart height
+  .transitionDuration(1000) //define chart transition duration
+  .margins({top: 5, right: 5, bottom: 40, left: 30}) //define margins
+  .dimension(priceValue) //set dimension
+  .group(priceValueGroupCount) //set group
+  .centerBar(true)  //center the bar chart to its x value
+  .x(d3.scale.linear().domain([0, 350])) // define x scale
+  .xUnits(function(){return 10;}) //define x axis unit and set bin size
+  .elasticY(true) //rescake y axis to fit data
   .xAxisLabel('Price / Night')
   .yAxisLabel('Count')
-  .xAxis().tickValues([0, 100, 200, 300])
+  .xAxis().tickValues([0, 100, 200, 300, 400])
   .tickFormat(function (v) {
-          return '$' + v ;
+          return '$' + v ;  //add $ symble to x labels
       });
 
-//lineChart
-lineChart.width(450)
-  .height(200)
-  .transitionDuration(1000)
-  .margins({top: 5, right: 10, bottom: 40, left: 35})
-  .dimension(priceByTime)
-  .group(priceAvgByTimeGroup)
-  .valueAccessor(function(p) {return p.value.avg;})
-  .elasticY(true)
-  .renderVerticalGridLines(true)
-  .x(d3.time.scale().domain(d3.extent(airbnb_data, function(d) { return d.dd; })))
+/**lineChart to show price varies with time**/
+
+lineChart.width(450) //define chart width
+  .height(200) //define chart height
+  .transitionDuration(1000) //define chart transition duration
+  .margins({top: 5, right: 10, bottom: 40, left: 35}) //set margin
+  .dimension(priceByTime) //set dimension
+  .group(priceAvgByTimeGroup) //set group
+  .valueAccessor(function(p) {return p.value.avg;}) //set y axis
+  .elasticY(true) //rescale y axis to fit data
+  .renderVerticalGridLines(true) // show grid line on y axis
+  .x(d3.time.scale().domain(d3.extent(airbnb_data, function(d) { return d.dd; }))) // set x axis
   .yAxisLabel('Average Price / Night')
   .renderlet(function (chart) {
  // rotate x-axis labels
@@ -506,22 +537,21 @@ lineChart.width(450)
     .attr('transform', 'translate(-10,10) rotate(315)');
     })
   .yAxis().tickFormat(function (v) {
-            return '$' + v ;
+            return '$' + v ; // add $ symbol to y labels
         });
 
-// row chart day of week
+/** row chart for price by neighborhood **/
 
-rowChart_3
-   .width(245)
-   .height(810)
-   .group(priceByNeighbourhoodGroup)
-   .dimension(priceByNeighbourhood)
-   .ordering(function(d){ return -d.value.averages; })
-   .valueAccessor(function (d) { return d.value.averages; })
-    .margins({top: 0, left: 5, right: 20, bottom: 20})
-   //.x(d3.scale.linear().range([0,300]).domain([0,300]))
-   .colors(["#FFFFFF"])
-   .renderlet(function(chart){
+rowChart_3.width(245) // define chart width
+   .height(810) // define chart height
+   .transitionDuration(1000) // define chart transition duration
+   .margins({top: 0, left: 5, right: 20, bottom: 20}) //set margin
+   .group(priceByNeighbourhoodGroup) // set group
+   .dimension(priceByNeighbourhood) // set dimension
+   .ordering(function(d){ return -d.value.averages; }) // sorting the price value
+   .valueAccessor(function (d) { return d.value.averages; }) // set x axis
+   .colors(["#FFFFFF"]) // set the intial color to white
+   .renderlet(function(chart){  //set color of each neighborhood to be consisit with their area
     chart.selectAll("g.row rect").attr("fill", function(d){
         if(d.key=="Castro/Upper Market" | d.key== "Glen Park" | d.key== "Noe Valley"
           | d.key== "Twin Peaks")
@@ -549,23 +579,30 @@ rowChart_3
             return '#FF9896';
           });
         })
-
-  .title(function(p) {
+  .title(function(p) { //show neighborhood and average price by mouseover
       return p.key
               + "\n"
               + "average price: $" + Math.round(numberFormat(p.value.averages));
   })
-  .elasticX(false)
-  //.x(d3.scale.linear().range([0,300]).domain([0,300]))
+  .elasticX(false) //fix x axis
   .xAxis().ticks(5) .tickFormat(function (v) {
-          return '$' + v ;
+          return '$' + v ; // show $ symbol on x labels
       });
 // set fixed x-axis scale
 rowChart_3.x(d3.scale.linear().range([0,(rowChart_3.width()-50)]).domain([0,300]));
 rowChart_3.xAxis().scale(rowChart_3.x());
 
+/** Rendering **/
+// simply call renderAll() to render all charts on the page
+dc.renderAll();
+// or render charts belong to a specific chart group
+dc.renderAll("group");
 
-  dc.renderAll();
+// once rendered you can call redrawAll to update charts incrementally when data
+// change without re-rendering everything
+dc.redrawAll();
+// or you can choose to redraw only those charts associated with a specific chart group
+dc.redrawAll("group");
 
 });
 </script>
