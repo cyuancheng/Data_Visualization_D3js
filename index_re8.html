@@ -416,19 +416,22 @@ rowChart_1
     }
       return order[d.key];
     })
-    //.elasticX(false)
+    //.elasticX(true)
     //.x().range([0, 200])
     .title(function(p) {
         return p.key
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
-    .x(d3.scale.linear().range([0,200]).domain([0,200]))
+    //.x(d3.scale.linear().domain([0,300]).range([0,300]))
     .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
             '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9'])
     .xAxis().ticks(5).tickFormat(function (v) {
             return '$' + v ;
         });
+//rowChart_1.xAxis().scale(rowChart_1.x());
+// set fixed x-axis scale
+rowChart_1.x(d3.scale.linear().range([0,(rowChart_1.width()-50)]).domain([0,300]));
 rowChart_1.xAxis().scale(rowChart_1.x());
 
 // row chart day of week
@@ -454,12 +457,14 @@ rowChart_2
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
-    .x(d3.scale.linear().range([0,200]).domain([0,200]))
+    //.x(d3.scale.linear().range([0,300]).domain([0,300]))
     .colors(['#5ab94e',  '#74c56a', '#8ed086', '#a9dba2', '#c3e6bf',
               '#ddf1db', '#ddf1db'])
     .xAxis().ticks(5).tickFormat(function (v) {
             return '$' + v ;
         }) ;
+// set fixed x-axis scale
+rowChart_2.x(d3.scale.linear().range([0,(rowChart_2.width()-50)]).domain([0,300]));
 rowChart_2.xAxis().scale(rowChart_2.x());
 
 //bar chart
@@ -551,9 +556,10 @@ rowChart_3
   .xAxis().ticks(5) .tickFormat(function (v) {
           return '$' + v ;
       });
+// set fixed x-axis scale
+rowChart_3.x(d3.scale.linear().range([0,(rowChart_3.width()-50)]).domain([0,300]));
+rowChart_3.xAxis().scale(rowChart_3.x());
 
-
-//rowChart_3.xAxis().scale(rowChart_3.x());
 
   dc.renderAll();
 

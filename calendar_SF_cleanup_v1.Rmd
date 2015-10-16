@@ -35,9 +35,9 @@ Add month and day into dataframe
 data_cal_SF_a <- subset(data_cal_SF, available == "t") # subset avaiable data
 
 colnames(data_cal_SF_a)[1] <- "id"
-#library(lubridate)
-#data_cal_SF_a$month <- month(as.Date(data_cal_SF_a$date, "%m/%d/%y")) # add month 
-#data_cal_SF_a$day <- wday(as.Date(data_cal_SF_a$date, "%m/%d/%y"), label=TRUE)
+library(lubridate)
+data_cal_SF_a$month <- month(as.Date(data_cal_SF_a$date, "%m/%d/%y")) # add month 
+data_cal_SF_a$day <- wday(as.Date(data_cal_SF_a$date, "%m/%d/%y"), label=TRUE)
 
 #write.csv(data_cal_SF_a, file = "data_cal_SF_a.csv")
 ```
@@ -57,10 +57,10 @@ remove_outliers <- function(x, na.rm = TRUE, ...) {
   y
 }
 
-p1 <- ggplot(data = data_cal_SF_a,  aes(y=price)) +
+p1 <- ggplot(data = data_cal_SF_a, aes(x=factor(month), y=price)) +
       geom_boxplot()
 
-p2 <- ggplot(data = data_cal_SF_a, aes(y=remove_outliers(price))) +
+p2 <- ggplot(data = data_cal_SF_a, aes(x=factor(month), y=remove_outliers(price))) +
       geom_boxplot()
 
 grid.arrange(p1, p2, ncol=1)
@@ -91,16 +91,22 @@ write.table(data_SF, file='data_SF.tsv', quote=FALSE, sep='\t', col.names = NA)
 ```{r}
 data_SF_area <- merge(x = neighborhood_area, y = data_SF, by = "neighbourhood", all = TRUE)
 
-data_SF_review <- subset(data_SF_area,!is.na(Area)) %>%
+
+list_df <- subset(data_SF_area, !is.na(Area) & !is.na(price.y),
+                  select = c (neighbourhood, Area, latitude, longitude, room_type,
+                minimum_nights, number_of_reviews, 
+                availability_365, date, month, day, price.y))
+
+data_SF_review <- subset(dlist_df,!is.na(Area)) %>%
             group_by(Area) %>%
             summarise(median_price =median(as.numeric(price.y)), 
                     median_aval =median(as.numeric(availability_365)/365*100) ,
             n=n())
 
-data_SF_month <- subset(data_SF_area, number_of_reviews >0 & !is.na(Area)) %>%
-            group_by(room_type, Area, neighbourhood,  month ) %>%
-            summarise(median_price =median(as.numeric(price.y)), 
-                    median_aval =median(as.numeric(availability_365)/365*100),
+data_SF_month <- subset(list_df, number_of_reviews >0 & !is.na(Area)) %>%
+            group_by(room_type, Area, neighbourhood,  date, month, day) %>%
+            summarise(median_price = median(as.numeric(price.y)), 
+                    median_aval = median(as.numeric(availability_365)/365*100),
                     reviews = sum(as.numeric(number_of_reviews)),
             n=n())
 
