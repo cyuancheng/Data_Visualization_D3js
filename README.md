@@ -24,7 +24,7 @@ I took the 2015 Airbnb data in San Francisco from [Inside Airbnb](http://insidea
  
 ####2. Design
 
-(1)  [Original visualization design](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html)
+(1)  Initial visualization design. (original [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html))
  
 All the graphs are generated using [dc.js](https://dc-js.github.io/dc.js/), which is dimensional charting javascript library on top of D3.js. I used [crossfilter](http://square.github.io/crossfilter/) to quickly manipulate multi-dimensional data array, including filtering and grouping. These two unique tools allow me to make interactive dashboard very easily. Because this project contains seven graphs, I used [Bootstrap](http://getbootstrap.com) to design the HTML, CSS, and JavaScript framework. 
 
@@ -38,7 +38,7 @@ The data contains lots of information. I focus on the analysis of how the price 
 - **Line chart** (price varies with time): To monitor how the price changes with time under selected conditions.
 - **Row chart** (price by neighborhood): To show how the price changes in each neighborhood. 
 
-(2) [Revised visualization design](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html) based on feedback **
+(2) Revised visualization design based on feedback (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html)) 
 
 - I included how many room places are there in Airbnb above the pie chart, according to how selection goes.
 - For this row chart, I sorted the price from high to low, so reader can immediately see the price ordering in the neighborhood under specific conditions.
