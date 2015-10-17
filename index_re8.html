@@ -10,10 +10,12 @@
 <!--d3.js -->
   <script src="http://d3js.org/d3.v3.min.js"></script>
 <!--dc.js + dc.css -->
+
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script> -->
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.min.js"></script>
   <link href='stylesheets/dc.css' rel='stylesheet' type='text/css'>
-  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.0/dc.css"></script> -->
+
 <!-- crossfilter.js-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
 <!--bootstrap-->
@@ -40,13 +42,7 @@
     font-size:12px;
     font-weight:normal;
     }
-/* adjust margin for pie chart*/
-  .chart {
-    margin-top: 100px;
-margin-bottom: 100px;
-margin-right: 150px;
-margin-left: 50px;;
-          }
+
 /* adjust font size for bubble graph*/
     #dc-bubble-graph .node { font-size: 12px; }
     #dc-bubble-graph g.deselected text {
@@ -112,8 +108,8 @@ margin-left: 50px;;
                   </span>
                 </h4>
                   <div id="data-count">
-                    <span class="filter-count"></span> selected rooms
-                    out of <br> <span class="total-count"></span> listed rooms
+                    <span class="filter-count"></span> selected properties
+                    out of <br> <span class="total-count"></span> listed properties
                   </div>
 							</div>
 							<!-- /row chart (price by month) -->
@@ -390,14 +386,19 @@ bubbleChart.width(650) //define chart width
             '#C49C94', '#F7B6D2', '#7F7F7F', '#DBDB8D', '#9EDAE5']) //set color for each area
     .keyAccessor(function(p) {return p.value.avgPrice ;}) //set x axis
     .valueAccessor(function(p) {return p.value.avgAva;}) //set y axis
-    .radiusValueAccessor(function(p) {return Math.pow(p.value.sumReview,2);}) //set bubble area
+    .radiusValueAccessor(function(p) {return Math.sqrt(p.value.sumReview);}) //set bubble area
+
+
     .x(d3.scale.linear().domain([0,300 ])) //set x scale
     .y(d3.scale.linear().domain([68, 102])) //set y scale
-    .elasticX(true) // rescale x axis to fit data
-    .xAxisPadding(7) //set padding on x axis when elasticX is true
+
     //.mouseZoomable(true) // zoom in/out x aixs
-    .r(d3.scale.linear().domain([0, 10000000000000])) // set radis scale
-    .maxBubbleRelativeSize(0.05) // rescale bubble size
+    .r(d3.scale.linear().domain([0, 10000])) // set radis scale
+    .maxBubbleRelativeSize(0.3) // rescale bubble size
+    .elasticX(true) // rescale x axis to fit data
+    .xAxisPadding(10) //set padding on x axis when elasticX is true
+    //.elasticY(true) // rescale y axis to fit data
+    //.yAxisPadding(5)
     .renderHorizontalGridLines(true) // add grid lines on y axis
     .renderVerticalGridLines(true) // add grid lines on x axis
     .renderLabel(true) // add render label
@@ -512,7 +513,7 @@ barChart.width(220) //define chart width
   .xUnits(function(){return 10;}) //define x axis unit and set bin size
   .elasticY(true) //rescake y axis to fit data
   .xAxisLabel('Price / Night')
-  .yAxisLabel('Count')
+  .yAxisLabel('number of properties available')
   .xAxis().tickValues([0, 100, 200, 300, 400])
   .tickFormat(function (v) {
           return '$' + v ;  //add $ symble to x labels
@@ -528,6 +529,7 @@ lineChart.width(450) //define chart width
   .group(priceAvgByTimeGroup) //set group
   .valueAccessor(function(p) {return p.value.avg;}) //set y axis
   .elasticY(true) //rescale y axis to fit data
+  .yAxisPadding(10)
   .renderVerticalGridLines(true) // show grid line on y axis
   .x(d3.time.scale().domain(d3.extent(airbnb_data, function(d) { return d.dd; }))) // set x axis
   .yAxisLabel('Average Price / Night')
