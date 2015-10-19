@@ -7,7 +7,6 @@
   <meta name="description" content="Data Visulization of Airbnb Price in SF">
   <meta name="author" content="Chiyuan Cheng">
 
-
 <!--d3.js -->
   <script src="http://d3js.org/d3.v3.min.js"></script>
 <!--dc.js + dc.css -->
@@ -42,6 +41,15 @@
   h2 span {
     font-size:12px;
     font-weight:normal;
+    }
+/*adjust the position of the paragraph*/
+  p {
+        align: center;
+        display: block;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0em;
+        margin-right: 0;
     }
 
 /* adjust font size for bubble graph*/
@@ -87,32 +95,38 @@
 
             I create a data visualization using d3.js to explore the prices of accommodation places that were listed on
             <a href="https://www.airbnb.com">Airbnb</a>
-            in San Francisco <br> between May 2015 and May 2016. (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)<br>
+            in San Francisco <br> between May 2015 and May 2016. (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
+            <br>
 
-            <p>Maybe you are interested in <br>
+            <p>
+            <span style="padding: 0 20px">
+             Maybe you are interested in :
+                <span style="padding: 0 10px">
               (1)
               <a href="javascript:pieChart.filter('Entire home/apt');
               bubbleChart.filter('Central East');dc.redrawAll();">
-              renting an entire home in the most popular area </a> <br>
-              (2) or 
+              renting an entire home in the most popular area </a> </span> <br>
+
+                  <span style="padding: 0 188px">
+              (2) or
               <a href="javascript:
               rowChart_1.filter('Jan');rowChart_1.filter('Feb');rowChart_1.filter('Mar');
               rowChart_1.filter('Apr');rowChart_1.filter('Oct');rowChart_1.filter('Nov');
               rowChart_1.filter('Dec');
               dc.redrawAll();">
-                visiting during the off-peak season </a> <br>
+                visiting during the off-peak season </a> </span> <br>
+                    <span style="padding: 0 188px">
               (3) or
                 <a href="javascript:
                 rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
                 rowChart_2.filter('Thurs');
                 dc.redrawAll();">
-                  visiting SF during the weekdays </a> <br>
-            <br>
+                  visiting during the weekdays </a> <br> </span> <p>
+            <p style="font-size:80%">
             Click through each chart to see how the price pattern changes with room type, time, and/or location.
             <br>
-            <i>Click color box to select. Click again to reset. </i>
-
-          <p>
+            <i>Click color box to select. Click again to reset. </i> </p>
+          </p>
         </div>
 
         <div class='row-fluid'>
@@ -481,8 +495,7 @@ rowChart_1.width(220) // define chart width
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
-    .colors(['#3296dc', '#439fdf', '#54a7e1', '#64b0e4', '#75b8e7', '#86c1ea',
-            '#97caed', '#a7d2f0', '#b8dbf3', '#c9e3f6', '#d9ecf9', '#d9ecf9']) //set color
+    .colors(['#75b8e7']) //set color
     .xAxis().ticks(5).tickFormat(function (v) {
             return '$' + v ; // add $ symble on x labels
         });
@@ -513,8 +526,7 @@ rowChart_2.width(220) //define chart width
                 + "\n"
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
     })
-    .colors(['#5ab94e',  '#74c56a', '#8ed086', '#a9dba2', '#c3e6bf',
-              '#ddf1db', '#ddf1db']) //set color
+    .colors(['#75b8e7']) //set color
     .xAxis().ticks(5).tickFormat(function (v) {
             return '$' + v ; //show $ symbol on x labels
         }) ;
@@ -573,7 +585,7 @@ rowChart_3.width(245) // define chart width
    .margins({top: 0, left: 5, right: 20, bottom: 20}) //set margin
    .group(priceByNeighbourhoodGroup) // set group
    .dimension(priceByNeighbourhood) // set dimension
-   .ordering(function(d){ return -d.value.averages; }) // sorting the price value
+   .ordering(function(d){ return -d.value.averages; }) // sorting the price value from high to low
    .valueAccessor(function (d) { return d.value.averages; }) // set x axis
    .colors(["#FFFFFF"]) // set the intial color to white
    .renderlet(function(chart){  //set color of each neighborhood to be consisit with their area
