@@ -4,8 +4,9 @@
   <!--HTML coding, load required js or css files> -->
   <meta name="viewport" content="width=device-width,
   initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="Data Visulization of Airbnb Price in SF">
+  <meta name="author" content="Chiyuan Cheng">
 
-  <title>Data Visulization of Airbnb Price in SF</title>
 
 <!--d3.js -->
   <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -69,7 +70,9 @@
 		<div class='content'>
 			<div class='container-fluid' style='font: 12px sans-serif;'>
 		      <div class="dc-data-count" style="float: left;">
-          <h2>Visualization of Airbnb Data in San Francisco in 2015
+          <h2>
+            <span class="label label-default">Visualization of Airbnb Data in San Francisco
+              in 2015</span>
             <span>
               <!-- if a link with css class "reset" is present,  the chart
                 will automatically turn it on/off based on whether there is filter
@@ -84,7 +87,27 @@
 
             I create a data visualization using d3.js to explore the prices of accommodation places that were listed on
             <a href="https://www.airbnb.com">Airbnb</a>
-            in San Francisco <br> between May 2015 and May 2016. (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)<br><br>
+            in San Francisco <br> between May 2015 and May 2016. (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)<br>
+
+            <p>Maybe you are interested in <br>
+              (1)
+              <a href="javascript:pieChart.filter('Entire home/apt');
+              bubbleChart.filter('Central East');dc.redrawAll();">
+              renting an entire home in the most popular area </a> <br>
+              (2) or 
+              <a href="javascript:
+              rowChart_1.filter('Jan');rowChart_1.filter('Feb');rowChart_1.filter('Mar');
+              rowChart_1.filter('Apr');rowChart_1.filter('Oct');rowChart_1.filter('Nov');
+              rowChart_1.filter('Dec');
+              dc.redrawAll();">
+                visiting during the off-peak season </a> <br>
+              (3) or
+                <a href="javascript:
+                rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
+                rowChart_2.filter('Thurs');
+                dc.redrawAll();">
+                  visiting SF during the weekdays </a> <br>
+            <br>
             Click through each chart to see how the price pattern changes with room type, time, and/or location.
             <br>
             <i>Click color box to select. Click again to reset. </i>
