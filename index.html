@@ -60,6 +60,10 @@
     #dc-bubble-graph .axis text {
       font: 10px sans-serif;
     }
+/*draw a line below the text*/
+  hr { display: inline-block;
+  margin-bottom: 1px; margin-top: 1px;
+  width: 90%;}
 
 /* adjust grid line thickness for row graph*/
     .dc-row-graph .axis path, .axis line {
@@ -93,10 +97,9 @@
 
           <p>
 
-            This data visualization is to explore the prices of accommodation places that were listed on
+            Explore the prices of accommodation places that were listed on
             <a href="https://www.airbnb.com">Airbnb</a>
-            in San Francisco between May 2015 and May 2016. <br>(Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
-            <br>
+            in San Francisco between May 2015 and May 2016. <br>
 
             <p>
             <span style="padding: 0 20px">
@@ -129,19 +132,22 @@
               pieChart.filter('Private room');bubbleChart.filter('North');
                         dc.redrawAll();">
                renting the private room in the most expensive area </a>
-               is about the same price as
+               is about the same price as <br> <span style="padding: 0 205px">
               <a href="javascript:pieChart.filter('Entire home/apt');
                 bubbleChart.filter('Southwest');dc.redrawAll();">
-                renting the entire home in the leasy expensive area </a> </span>
+                renting the entire home in the least expensive area </a> </span></span>
                   <p>
 
             <p style="font-size:90%">
             Click through each chart to see how the price pattern changes with room type, time, and/or location.
-            <br>
-            <i>Click color box to select. Click again to reset. </i> </p>
+            <i>Click color box to select. Click again to reset. </i> <br>
+
+          (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
+          
+          </p>
           </p>
         </div>
-
+ <hr/>
         <div class='row-fluid'>
 					<div class='remaining-graphs col-md-8'>
 
@@ -173,7 +179,7 @@
                     </a>
                   </span>
                 </h4>
-                <p> x axis : average price / night </p>
+                <p style="font-size:90%"> x axis : average price / night </p>
 							</div>
               <!-- /row chart (price by day) -->
               <div class='col-md-4' id='dc-row-chart2'>
@@ -186,7 +192,7 @@
                     </a>
                   </span>
                 </h4>
-                <p> x axis : average price / night </p>
+                <p style="font-size:90%"> x axis : average price / night </p>
 							</div>
 						</div>
             <div class='row-fluid'>
@@ -210,20 +216,23 @@
             <div class='row-fluid'>
 							<!-- /bar chart (price distribution) -->
               <div class='col-md-4' id='dc-bar-graph'>
-								<h4>Price Distribution</h4>
-                <span>
-                  <a class="reset"
-                    href="javascript:barChart.filterAll();dc.redrawAll();"
-                    style="display: none;">
-                    reset
-                  </a>
-                </span>
+								<h4>Price Distribution
+                  <span>
+                    <a class="reset"
+                     href="javascript:barChart.filterAll();dc.redrawAll();"
+                     style="display: none;"> reset
+                    </a>
+                  </span></h4>
+
+                <p style="font-size:90%">
+                  <i> Drag mouse to a specific region to change the x-axis scale  </i></p>
+
 							</div>
               <!-- /line chart (price varies with time) -->
               <div class='col-md-8' id='dc-line-chart'>
                 <h4>Price Varies with Time</h4>
                 <p style="font-size:90%">
-                  Move the mouse to the curve to see date and price</p>
+                  <i> Move mouse to the curve to see date and price </i></p>
               </div>
 						</div>
 					</div>
@@ -240,7 +249,7 @@
                     </a>
                   </span>
                 </h4>
-                 <p> x axis : average price / night
+                 <p style="font-size:90%"> x axis : average price / night
                    <br>(color code represents area)</p>
 							</div>
 						</div>
@@ -406,9 +415,9 @@ var areaValueGroup = areaValue.group().reduce(
         }
     );
 //****** code testing *******************
-//var result = all.top(Infinity);
-//console.log("result variable");
-//console.log(result);
+var result = priceAvgByTimeGroup.top(Infinity);
+console.log("result variable");
+console.log(result);
 //**************************
 
 /**** Create the Visualisations ****/
@@ -447,6 +456,7 @@ bubbleChart.width(650) //define chart width
     .renderHorizontalGridLines(true) // add grid lines on y axis
     .renderVerticalGridLines(true) // add grid lines on x axis
     .renderLabel(true) // add render label
+    .renderTitle(true)
     .title(function(p) {
         return p.key // mouseover
                 + "\n"
@@ -546,7 +556,7 @@ rowChart_2.xAxis().scale(rowChart_2.x());
 /* Create a bar chart and use the given css selector as anchor. */
 
 barChart.width(220) //define chart width
-  .height(220) //define chart height
+  .height(200) //define chart height
   .transitionDuration(1000) //define chart transition duration
   .margins({top: 5, right: 5, bottom: 40, left: 30}) //define margins
   .dimension(priceValue) //set dimension
