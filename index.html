@@ -222,13 +222,8 @@
               <!-- /line chart (price varies with time) -->
               <div class='col-md-8' id='dc-line-chart'>
                 <h4>Price Varies with Time</h4>
-                <span>
-                  <a class="reset"
-                    href="javascript:lineChart.filterAll();dc.redrawAll();"
-                    style="display: none;">
-                    reset
-                  </a>
-                </span>
+                <p style="font-size:90%">
+                  Move the mouse to the curve to see date and price</p>
               </div>
 						</div>
 					</div>
@@ -576,6 +571,11 @@ lineChart.width(450) //define chart width
   .dimension(priceByTime) //set dimension
   .group(priceAvgByTimeGroup) //set group
   .valueAccessor(function(p) {return p.value.avg;}) //set y axis
+  .brushOn(false)  // turn off brushOn
+  .title(function(d){
+      return d.data.key  // add tooltip to linechart
+      + "\nAverage price / night: $" + d.data.value.avg;
+      })
   .elasticY(true) //rescale y axis to fit data
   .yAxisPadding(10)
   .renderVerticalGridLines(true) // show grid line on y axis
