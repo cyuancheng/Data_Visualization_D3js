@@ -24,33 +24,45 @@ I took the 2015 Airbnb data in San Francisco from [Inside Airbnb](http://insidea
  
 ####2. Design
 
-(1)  Initial visualization design. (original [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html))
+**(1)  Initial visualization design. (original [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html))**
  
 All the graphs are generated using [dc.js](https://dc-js.github.io/dc.js/), which is dimensional charting javascript library on top of D3.js. I used [crossfilter](http://square.github.io/crossfilter/) to quickly manipulate multi-dimensional data array, including filtering and grouping. These two unique tools allow me to make interactive dashboard very easily. Because this project contains seven graphs, I used [Bootstrap](http://getbootstrap.com) to design the HTML, CSS, and JavaScript framework. 
 
-The data contains lots of information. I focus on the analysis of how the price varies with room type, location, and time. Seven graphs are summarized below:
+The data contains lots of information. I focus on the analysis of how the price varies with room type, location, and time. The reasons about why seven graphs are encoded are summarized below:
 
 - **Bubble chart** (price vs. total number of review): It is the main figure in this visualization project. To understand how the price varies with location, number of review, and number of accommodation places, I decided to use a bubble chart to visualize these data, with the price per night on y-axis, number of review on x-axis, and the total number of accommodation places in specific location for the bubble radius.
-- **Pie chart** (room type) : There are only three room types (Entire home/apt, Private room, and Shared room).  
+- **Pie chart** (room type) : There are only three room types (Entire home/apt, Private room, and Shared room).  It would be easy to show the percentage of each room type by pie chart.
 - **Row chart** (price by month): To show how the average price / night changes with month.
 - **Row chart** (price by day): To show how the average price / night changes with day in a week.
 - **Bar chart** (price distribution): To visualize the price distribution under selected conditions.
 - **Line chart** (price varies with time): To monitor how the price changes with time under selected conditions.
 - **Row chart** (price by neighborhood): To show how the price changes in each neighborhood. 
 
-(2) Revised visualization design based on feedback (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html)) 
+**(2) Revised visualization design based on feedback (revised [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
 
-- I included how many room places are there in Airbnb above the pie chart, according to how selection goes.
+The discussion of which and why the changes were made are summarized below:
+
+- I included how many room places are there in Airbnb above the pie chart, according to how selection goes, so that the reader can easily see how many rooms are available under selected conditions.
 - For this row chart, I sorted the price from high to low, so reader can immediately see the price ordering in the neighborhood under specific conditions.
-- include year on the title (2015)
-- Add $ signs on every price axis
--  Use identical x-axis scale for price-by-month and price-by-day charts
+- Included year on the title (2015). This was missing in the original design.
+- Added $ signs on every price axis, so reader can immediately realize which axis is price within multiple charts.
+-  Turn off auto rescale function on x-axis and use identical x-axis scale for price-by-month and price-by-day charts, so that it would be easy to see how the price changes between two charts.
 -  Modify the bubble chart. 
-	- use price as x axis, room availability as y axis, and number of reviews as bubble size.
-	- use square root of value to size the bubbles.
-- Put pie chart, two row charts (price by month and price by day) on the top, and put bubble chart in the middle. 
-- Round all the values in the mouseovers 
-- Change the gridlines weight to light dark
+	- The original design for bubble chart was to compare price vs. number of review. But there seems to be no directly relevant between these two factors. therefore, in this revised design, I compare price vs. availability in this bubble chart.
+	- To make the chart consistent among one another, I used price as x axis and availability as y axis. 
+	- used square root of value to size the bubbles, so the bubble area represents the value (number of review). 
+- Put pie chart, two row charts (price by month and price by day) on the top, and put bubble chart in the middle. That way, reader can first play with the value for room-type and month/date to see how the price changes on the bubble chart.
+- Rounded all the values in the mouseovers. It is because availability, price, number of review should not have decimal.  
+- Changed the gridlines weight to light dark, so the charts are consistent among one another.
+
+**(3) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html))**
+
+- In order to tell stories from the visualization, I did more exploratory data analysis, and filtered out specific values to show explanatory charts. I then created link buttons that automatically adjust the plots.
+- Turned off the BrushOn function and used the tooltip for line chart, so reader can see the specific values of price and date in the line chart.
+- Mentioned the x-axis of bar chart can be extended by mouse.
+- Used the same color of two row chart (price by month and price by day) to avoid confusing
+- Changed the style for the text and title, so that reader can easily capture the message and story.
+
 
 ###Feedback
 
