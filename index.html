@@ -93,9 +93,9 @@
 
           <p>
 
-            I create a data visualization using d3.js to explore the prices of accommodation places that were listed on
+            This data visualization is to explore the prices of accommodation places that were listed on
             <a href="https://www.airbnb.com">Airbnb</a>
-            in San Francisco <br> between May 2015 and May 2016. (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
+            in San Francisco between May 2015 and May 2016. <br>(Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
             <br>
 
             <p>
@@ -108,21 +108,34 @@
               renting an entire home in the most popular area </a> </span> <br>
 
                   <span style="padding: 0 188px">
-              (2) or
+              (2) visiting
               <a href="javascript:
               rowChart_1.filter('Jan');rowChart_1.filter('Feb');rowChart_1.filter('Mar');
               rowChart_1.filter('Apr');rowChart_1.filter('Oct');rowChart_1.filter('Nov');
               rowChart_1.filter('Dec');
               dc.redrawAll();">
-                visiting during the off-peak season </a> </span> <br>
-                    <span style="padding: 0 188px">
-              (3) or
-                <a href="javascript:
-                rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
-                rowChart_2.filter('Thurs');
-                dc.redrawAll();">
-                  visiting during the weekdays </a> <br> </span> <p>
-            <p style="font-size:80%">
+                 during the off-peak season </a>
+
+              or
+              <a href="javascript:
+              rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
+              rowChart_2.filter('Thurs');
+              dc.redrawAll();">
+              during the weekdays </a>  </span> <br>
+
+                <span style="padding: 0 188px">
+              (3)
+              <a href="javascript:
+              pieChart.filter('Private room');bubbleChart.filter('North');
+                        dc.redrawAll();">
+               renting the private room in the most expensive area </a>
+               is about the same price as
+              <a href="javascript:pieChart.filter('Entire home/apt');
+                bubbleChart.filter('Southwest');dc.redrawAll();">
+                renting the entire home in the leasy expensive area </a> </span>
+                  <p>
+
+            <p style="font-size:90%">
             Click through each chart to see how the price pattern changes with room type, time, and/or location.
             <br>
             <i>Click color box to select. Click again to reset. </i> </p>
@@ -145,7 +158,7 @@
                   </span>
                 </h4>
                   <div id="data-count">
-                    <span class="filter-count"></span> selected properties
+                    <span class="filter-count", style="font-weight: bold;"></span> selected properties
                     out of <br> <span class="total-count"></span> listed properties
                   </div>
 							</div>
@@ -188,7 +201,7 @@
                     </a>
                   </span>
                 </h4>
-                <p>
+                <p style="font-size:90%">
                   <i>Click bubble to select. Click again to reset.</i>
                   (color code represents area, bubble area : total number of review) </p>
 							</div>
