@@ -38,7 +38,7 @@ The data contains lots of information. I focus on the analysis of how the price 
 - **Line chart** (price varies with time): To monitor how the price changes with time under selected conditions.
 - **Row chart** (price by neighborhood): To show how the price changes in each neighborhood. 
 
-**(2) Revised visualization design based on feedback (revised [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
+**(2) Revised visualization design based on feedback (revised [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re7.html))**
 
 The discussion of which and why the changes were made are summarized below:
 
