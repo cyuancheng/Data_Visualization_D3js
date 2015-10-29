@@ -1,7 +1,7 @@
 ##Project 6: Make Effective Data Visulization | Data Visualization and D3.js
 
 - Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com)
-- Last updated: Oct 17, 2015
+- Last updated: Oct 29, 2015
 
 ###Summary
 
@@ -55,7 +55,7 @@ The discussion of which and why the changes were made are summarized below:
 - Rounded all the values in the mouseovers. It is because availability, price, number of review should not have decimal.  
 - Changed the gridlines weight to light dark, so the charts are consistent among one another.
 
-**(3) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html))**
+**(3) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
 
 - In order to tell stories from the visualization, I did more exploratory data analysis, and filtered out specific values to show explanatory charts. I then created link buttons that automatically adjust the plots.
 - Turned off the BrushOn function and used the tooltip for line chart, so reader can see the specific values of price and date in the line chart.
@@ -63,6 +63,12 @@ The discussion of which and why the changes were made are summarized below:
 - Used the same color of two row chart (price by month and price by day) to avoid confusing
 - Changed the style for the text and title, so that reader can easily capture the message and story.
 
+**(4) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html))**
+
+- Draw noteworthy conclusions at the top of the visulization. The insights from the data are summarized below:
+	- Renting entire home is more expensive than renting private room or shared room 
+	- It is cheaper to visit SF during the off-peak season (Jan - Apr, Oct - Dec) or during the week (Mon - Thur) 
+	- Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
 
 ###Feedback
 
