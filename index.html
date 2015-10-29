@@ -81,7 +81,7 @@
 	<div class='container-fluid' id='main-container'>
 		<div class='content'>
 			<div class='container-fluid' style='font: 12px sans-serif;'>
-		      <div class="dc-data-count" style="float: left;">
+
           <h2>
             <span class="label label-default">Visualization of Airbnb Data in San Francisco
               in 2015</span>
@@ -106,9 +106,12 @@
              Insight from the data :
                 <span style="padding: 0 10px">
               (1) Renting
-              <a href="javascript:pieChart.filter('Entire home/apt');dc.redrawAll();">
-              entire home </a> is more expensive than renting <a href="javascript:pieChart.filter('Private room');dc.redrawAll();">
-                private room </a> or <a href="javascript:pieChart.filter('Shared room');dc.redrawAll();"> shared room</a> </span> <br>
+              <a href="javascript:
+              pieChart.filter('Entire home/apt');dc.redrawAll();">
+              entire home </a> is more expensive than renting <a href="javascript:
+              pieChart.filter('Private room');dc.redrawAll();">
+              private room </a> or <a href="javascript:
+              pieChart.filter('Shared room');dc.redrawAll();"> shared room</a> </span> <br>
 
                   <span style="padding: 0 150px">
               (2) It is cheaper to visit SF
@@ -147,7 +150,7 @@
 
           </p>
           </p>
-        </div>
+
  <hr/>
         <div class='row-fluid'>
 					<div class='remaining-graphs col-md-8'>
@@ -345,7 +348,6 @@ var priceByNeighbourhoodGroup = priceByNeighbourhood.group()
 var priceValue = facts.dimension(function (d) {return d.median_price;});
 var priceValueGroupCount = priceValue.group().reduceCount();
 
-
 //function for making line chart for price varies with time
 var priceByTime = facts.dimension(function(d) { return d.dd; });
 var priceAvgByTimeGroup = priceByTime.group().reduce(
@@ -444,7 +446,6 @@ bubbleChart.width(650) //define chart width
     .keyAccessor(function(p) {return p.value.avgPrice ;}) //set x axis
     .valueAccessor(function(p) {return p.value.avgAva;}) //set y axis
     .radiusValueAccessor(function(p) {return Math.sqrt(p.value.sumReview);}) //set bubble area
-
 
     .x(d3.scale.linear().domain([0,300 ])) //set x scale
     .y(d3.scale.linear().domain([68, 102])) //set y scale
