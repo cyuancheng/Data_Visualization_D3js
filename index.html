@@ -97,45 +97,46 @@
 
           <p>
 
-            Explore the prices of accommodation places that were listed on
+            Explore the prices of renting properties that were listed on
             <a href="https://www.airbnb.com">Airbnb</a>
             in San Francisco between May 2015 and May 2016 <br>
 
             <p>
             <span style="padding: 0 20px">
-             Maybe you are interested in :
+             Insight from the data :
                 <span style="padding: 0 10px">
-              (1)
-              <a href="javascript:pieChart.filter('Entire home/apt');
-              bubbleChart.filter('Central East');dc.redrawAll();">
-              renting an entire home in the most popular area </a> </span> <br>
+              (1) Renting
+              <a href="javascript:pieChart.filter('Entire home/apt');dc.redrawAll();">
+              entire home </a> is more expensive than renting <a href="javascript:pieChart.filter('Private room');dc.redrawAll();">
+                private room </a> or <a href="javascript:pieChart.filter('Shared room');dc.redrawAll();"> shared room</a> </span> <br>
 
-                  <span style="padding: 0 188px">
-              (2) visiting
+                  <span style="padding: 0 150px">
+              (2) It is cheaper to visit SF
+
               <a href="javascript:
               rowChart_1.filter('Jan');rowChart_1.filter('Feb');rowChart_1.filter('Mar');
               rowChart_1.filter('Apr');rowChart_1.filter('Oct');rowChart_1.filter('Nov');
               rowChart_1.filter('Dec');
               dc.redrawAll();">
-                 during the off-peak season </a>
+                 during the off-peak season (Jan - Apr, Oct - Dec) </a>
 
               or
               <a href="javascript:
               rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
               rowChart_2.filter('Thurs');
               dc.redrawAll();">
-              during the weekdays </a>  </span> <br>
+              during the week (Mon - Thur) </a>  </span> <br>
 
-                <span style="padding: 0 188px">
+                <span style="padding: 0 150px">
               (3)
               <a href="javascript:
               pieChart.filter('Private room');bubbleChart.filter('North');
                         dc.redrawAll();">
-               renting the private room in the most expensive area </a>
-               is about the same price as <br> <span style="padding: 0 205px">
+               Renting private room in the most expensive area </a>
+               is about the same price as
               <a href="javascript:pieChart.filter('Entire home/apt');
                 bubbleChart.filter('Southwest');dc.redrawAll();">
-                renting the entire home in the least expensive area </a> </span></span>
+                renting entire home in the least expensive area </a> </span></span>
                   <p>
 
             <p style="font-size:90%">
@@ -276,6 +277,7 @@ var rowChart_2 = dc.rowChart("#dc-row-chart2");
 var barChart = dc.barChart("#dc-bar-graph");
 var lineChart = dc.lineChart("#dc-line-chart")
 var rowChart_3 = dc.rowChart("#dc-row-chart3");
+//var boxND    = dc.numberDisplay("#number-box"),
 
 // set dc.js version in title
 d3.selectAll("#version").text(dc.version);
@@ -317,7 +319,6 @@ function reduceRemoveAvg(attr) {
 function reduceInitAvg() {
         return {count:0, sums:0, averages:0};
     }
-//******************
 
 /*** Define dimension and map/reduce to group ***/
 
@@ -344,6 +345,7 @@ var priceByNeighbourhoodGroup = priceByNeighbourhood.group()
 var priceValue = facts.dimension(function (d) {return d.median_price;});
 var priceValueGroupCount = priceValue.group().reduceCount();
 
+
 //function for making line chart for price varies with time
 var priceByTime = facts.dimension(function(d) { return d.dd; });
 var priceAvgByTimeGroup = priceByTime.group().reduce(
@@ -367,19 +369,19 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
 //function for making bubble chart
 var areaValue = facts.dimension(function (d) { return d.Area_SF; });
 
-var areaArrayGroup = areaValue.group().reduce(
-  function(p,v) {
-    p.push(Number(v.median_price));
-    return p;
-  },
-  function(p,v) {
-    p.splice(p.indexOf(Number(v.median_price)), 1);
-    return p;
-  },
-  function() {
-    return [];
-  }
-);
+//var areaArrayGroup = areaValue.group().reduce(
+//  function(p,v) {
+//    p.push(Number(v.median_price));
+//    return p;
+//  },
+//  function(p,v) {
+//    p.splice(p.indexOf(Number(v.median_price)), 1);
+//    return p;
+//  },
+//  function() {
+//    return [];
+//  }
+//);
 
 var areaValueGroup = areaValue.group().reduce(
         // callback for when data is added to the current filter results
@@ -415,9 +417,9 @@ var areaValueGroup = areaValue.group().reduce(
         }
     );
 //****** code testing *******************
-var result = priceAvgByTimeGroup.top(Infinity);
-console.log("result variable");
-console.log(result);
+//var result = facts//.top(Infinity);
+//console.log("result variable");
+//console.log(result);
 //**************************
 
 /**** Create the Visualisations ****/
@@ -425,7 +427,8 @@ console.log(result);
 /* Create a data count widget and use the given css selector as anchor.*/
 dc.dataCount("#data-count")
     .dimension(facts) // set dimension to all data
-    .group(all); // set group to ndx.groupAll()
+    .group(all); // set group to facts.groupAll()
+
 
 /** bubble  Chart ***/
 /* When a chart belongs to a specific group, any interaction with such chart will
@@ -566,7 +569,7 @@ barChart.width(220) //define chart width
   .xUnits(function(){return 10;}) //define x axis unit and set bin size
   .elasticY(true) //rescake y axis to fit data
   .xAxisLabel('Price / Night')
-  .yAxisLabel('number of properties available')
+  .yAxisLabel('Number of Properties')
   .xAxis().tickValues([0, 100, 200, 300, 400])
   .tickFormat(function (v) {
           return '$' + v ;  //add $ symble to x labels
