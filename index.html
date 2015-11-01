@@ -96,37 +96,41 @@
               <a href="https://www.airbnb.com">Airbnb</a>
               in San Francisco between May 2015 and May 2016 <br>
           <p>
+
+
             <span style="padding: 0 20px">
               Insight from the data :
               <span style="padding: 0 10px">
                 (1) Renting
-                <a href="javascript:
+                <a href="javascript:dc.filterAll(); dc.renderAll();
                 pieChart.filter('Entire home/apt');dc.redrawAll();">
                 entire home </a> is more expensive than renting
-                <a href="javascript:pieChart.filter('Private room');dc.redrawAll();">
-                private room </a> or <a href="javascript:
+                <a href="javascript:dc.filterAll(); dc.renderAll();
+                pieChart.filter('Private room');dc.redrawAll();">
+                private room </a> or <a href="javascript:dc.filterAll(); dc.renderAll();
                 pieChart.filter('Shared room');dc.redrawAll();"> shared room</a> </span> <br>
                 <span style="padding: 0 150px">
                 (2) It is cheaper to visit SF
-                <a href="javascript:
+                <a href="javascript: dc.filterAll(); dc.renderAll();
                 rowChart_1.filter('Jan');rowChart_1.filter('Feb');rowChart_1.filter('Mar');
                 rowChart_1.filter('Apr');rowChart_1.filter('Oct');rowChart_1.filter('Nov');
                 rowChart_1.filter('Dec');
                 dc.redrawAll();">
                    during the off-peak season (Jan - Apr, Oct - Dec) </a>
                 or
-                <a href="javascript:
+                <a href="javascript:dc.filterAll(); dc.renderAll();
                 rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
                 rowChart_2.filter('Thurs');
                 dc.redrawAll();">
                 during the weekdays (Mon - Thur) </a>  </span> <br>
                 <span style="padding: 0 150px">
                 (3)
-                <a href="javascript:
+                <a href="javascript:dc.filterAll(); dc.renderAll();
                 pieChart.filter('Private room');bubbleChart.filter('North'); dc.redrawAll();">
                 Renting private room in the most expensive area </a>
                 is about the same price as
-                <a href="javascript:pieChart.filter('Entire home/apt');
+                <a href="javascript:dc.filterAll(); dc.renderAll();
+                pieChart.filter('Entire home/apt');
                 bubbleChart.filter('Southwest');dc.redrawAll();">
                 renting entire home in the least expensive area </a> </span></span>
                 <p>
