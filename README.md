@@ -63,12 +63,19 @@ The discussion of which and why the changes were made are summarized below:
 - Used the same color of two row chart (price by month and price by day) to avoid confusing
 - Changed the style for the text and title, so that reader can easily capture the message and story.
 
-**(4) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html))**
+**(4) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re9.html))**
 
 - Draw noteworthy conclusions at the top of the visulization. The insights from the data are summarized below:
 	- Renting entire home is more expensive than renting private room or shared room 
 	- It is cheaper to visit SF during the off-peak season (Jan - Apr, Oct - Dec) or during the week (Mon - Thur) 
 	- Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
+
+**(4) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html))**
+
+- Consistently used tabs in the codes to avoid "indentation wars"
+- Deleted redundant comments in the code
+- Fixed the bugs on the percentage of the pie chart
+- Added the reset to the filters in the "insight from the data" section 
 
 ###Feedback
 
