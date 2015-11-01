@@ -450,12 +450,17 @@ pieChart.width(200)
     .transitionDuration(1000)
     .radius(100)
     .innerRadius(0)
-    .label(function(d) { return d.data.key +
-     "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; }) //use data.key as its label
+    .label(function (d) {  // label percentage in pie chart
+            if (pieChart.hasFilter() && !pieChart.hasFilter(d.data.key)) {
+              return d.data.key + '(0%)';
+            }
+            var label = d.data.key;
+            if (all.value()) {
+              label += '(' + Math.floor(d.data.value / all.value() * 100) + '%)';
+            }
+            return label;
+        })
     .renderLabel(true)
-  //  .title(function(d) { return d.data.key +
-  //    "(" + Math.floor(d.data.value / all.value() * 100) + "%)"; }) //use data.value as its title
-  //  .renderTitle(true)
     .dimension(RoomType)
     .group(RoomTypeGroup)
     .colors(['#729ECE', '#FF9E4A', '#67BF5C']); //define color arry for slices
