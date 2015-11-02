@@ -70,16 +70,16 @@ The discussion of which and why the changes were made are summarized below:
 	- It is cheaper to visit SF during the off-peak season (Jan - Apr, Oct - Dec) or during the week (Mon - Thur) 
 	- Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
 
-**(4) Revised visualization design based on reviewer's comments, the third submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original visualization)**
+**(4) Revised visualization design based on reviewer's comments, the third submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original exploratory visualization,  [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html) for simple explanatory version)**
 
 - Consistently used tabs in the codes to avoid "indentation wars"
 - Deleted redundant comments in the code
 - Fixed the bugs on the percentage of the pie chart, and change the pie chart to row chart for room-type data
 - Added the reset to the filters in the "insight from the data" section 
 - I revised the second insight, because it seems like that there is no strong seasonal trend in the data.
-- I decided to use a simple explanatory visualization to present my story (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html)), as below:
+- I decided to use a simple explanatory visualization to present my story, as below:
 	- Only present three graphs (a row chart for "room type", row chart for "price by month", and a row chart for "price by area" ). 
-	-  The original eploratory visualization was provided as a link in the new html file.
+	-  The original exploratory visualization was provided as a link in the new html file.
 
 
 ###Feedback
