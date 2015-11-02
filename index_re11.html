@@ -147,11 +147,11 @@
           <div class='remaining-graphs col-md-4'>
             <div class='row-fluid'>
 							<!-- /pie chart -->
-             <div class='col-md-12' id='dc-pie-graph'>
+             <div class='col-md-12' id='dc-row-graph'>
                 <h4>Room Type
                   <span>
                     <a class="reset"
-                      href="javascript:pieChart.filterAll();dc.redrawAll();"
+                      href="javascript:rowChart.filterAll();dc.redrawAll();"
                       style="display: none;">
                       reset
                     </a>
@@ -173,7 +173,7 @@
                   </a>
                   </span>
                 </h4>
-                <p style="font-size:90%"> x axis : average price / night </p>
+              <!--  <p style="font-size:90%"> x axis : average price / night </p> -->
               </div>
               <!-- /row chart (price by day) -->
               <div class='col-md-6' id='dc-row-chart2'>
@@ -186,7 +186,7 @@
                     </a>
                   </span>
                 </h4>
-                <p style="font-size:90%"> x axis : average price / night </p>
+              <!--  <p style="font-size:90%"> x axis : average price / night </p> -->
               </div>
             </div>
             </div>
@@ -233,18 +233,18 @@
 					<!-- /row chart (price by neighborhood) -->
           <div class='remaining-graphs col-md-8'>
             <div class='row-fluid'>
-              <div class='col-md-12' id='dc-row-chart3' style='color:black;'>
+              <div class='col-md-12' id='dc-bar-chart3' >
                 <h4>Price by Neighborhood
                   <span>
                     <a class="reset"
-                      href="javascript:rowChart_3.filterAll();dc.redrawAll();"
+                      href="javascript:barChart_3.filterAll();dc.redrawAll();"
                       style="display: none;">
                       reset
                     </a>
                     </span>
                   </h4>
-                  <p style="font-size:90%"> x axis : average price / night
-                    <br>(color code represents area)</p>
+                <!--  <p style="font-size:90%"> x axis : average price / night
+                    <br>(color code represents area)</p> -->
                   </div>
                 </div>
               </div>
@@ -259,13 +259,12 @@
 
 /*** 	Create the dc.js chart objects & link to div ***/
 //var bubbleChart = dc.bubbleChart("#dc-bubble-graph");
-var pieChart = dc.pieChart("#dc-pie-graph");
+var rowChart = dc.rowChart("#dc-row-graph");
 var rowChart_1 = dc.rowChart("#dc-row-chart1");
 var rowChart_2 = dc.rowChart("#dc-row-chart2");
 //var barChart = dc.barChart("#dc-bar-graph");
 //var lineChart = dc.lineChart("#dc-line-chart")
-var rowChart_3 = dc.rowChart("#dc-row-chart3");
-//var boxND    = dc.numberDisplay("#number-box"),
+var barChart_3 = dc.barChart("#dc-bar-chart3");
 
 // set dc.js version in title
 d3.selectAll("#version").text(dc.version);
@@ -356,6 +355,7 @@ var priceAvgByTimeGroup = priceByTime.group().reduce(
 //function for making bubble chart
 var areaValue = facts.dimension(function (d) { return d.Area_SF; });
 
+
 var areaValueGroup = areaValue.group().reduce(
         // callback for when data is added to the current filter results
         function (p, v) {
@@ -390,9 +390,9 @@ var areaValueGroup = areaValue.group().reduce(
         }
       );
 //****** code testing *******************
-//var result = facts//.top(Infinity);
-//console.log("result variable");
-//console.log(result);
+var result = RoomTypeGroup.top(Infinity);
+console.log("result variable");
+console.log(result);
 //**************************
 
 /**** Create the Visualisations ****/
@@ -446,30 +446,50 @@ dc.dataCount("#data-count")
 /** pie chart **/
 /* Create a pie chart and use the given css selector as anchor. */
 
-pieChart.width(200)
-    .height(200)
+rowChart.width(300)
+    .height(120)
     .transitionDuration(1000)
-    .radius(100)
-    .innerRadius(0)
-    .label(function (d) {  // label percentage in pie chart
-            if (pieChart.hasFilter() && !pieChart.hasFilter(d.data.key)) {
-              return d.data.key + '(0%)';
-            }
-            var label = d.data.key;
-            if (all.value()) {
-              label += '(' + Math.floor(d.data.value / all.value() * 100) + '%)';
-            }
-            return label;
-        })
-    .renderLabel(true)
     .dimension(RoomType)
     .group(RoomTypeGroup)
-    .colors(['#729ECE', '#FF9E4A', '#67BF5C']); //define color arry for slices
+    //.radius(80)
+    //.innerRadius(0)
+  //  .label(function (d) {  // label percentage in pie chart
+  //          if (rowChart.hasFilter() && !rowChart.hasFilter(d.data.key)) {
+  //            return d.data.key + '(0%)';
+  //          }
+  //          var label = d.data.key;
+  //          if (all.value()) {
+  //            label += '(' + Math.floor(d.data.value / all.value() * 100) + '%)';
+  //          }
+  //          return label;
+  //      })
+  .elasticX(false)
+  .label(function(d){
+    if (rowChart.hasFilter() && !rowChart.hasFilter(d.key)) {
+                return d.key + '(0%)';
+              }
+              var label = d.key;
+              if (all.value()) {
+              label +=" ("
+              +Math.floor(d.value / all.reduceCount().value() * 100) + "%)";
+          }
+          return label;
+        })
+
+    .renderLabel(true)
+
+    .colors(['#729ECE', '#FF9E4A', '#67BF5C'])
+    .xAxis().ticks(5).tickFormat(function (v) {
+        return v/1000+"k"; // add $ symble on x labels
+        }); //define color arry for slices
+
+//rowChart.x(d3.scale.linear().range([0,(rowChart.width()-50)]).domain([0,11000]));
+//rowChart.xAxis().scale(rowChart.x());
 
 /**row chart for price by month**/
 
-rowChart_1.width(150)
-    .height(150)
+rowChart_1.width(180)
+    .height(200)
     .transitionDuration(1000)
     .margins({top:5, right: 5, bottom: 20, left: 5})
     .group(priceByMonthGroup)
@@ -491,7 +511,7 @@ rowChart_1.width(150)
                 + "average price: $" + Math.round(numberFormat(p.value.averages));
       })
     .colors(['#75b8e7'])
-    .xAxis().ticks(5).tickFormat(function (v) {
+    .xAxis().ticks(3).tickFormat(function (v) {
         return '$' + v ; // add $ symble on x labels
         });
 //rescale x-axis
@@ -500,8 +520,8 @@ rowChart_1.xAxis().scale(rowChart_1.x());
 
 /**row chart for price by day**/
 
-rowChart_2.width(150)
-    .height(150)
+rowChart_2.width(180)
+    .height(200)
     .transitionDuration(1000)
     .group(priceByDayGroup)
     .dimension(priceByDay)
@@ -522,7 +542,7 @@ rowChart_2.width(150)
             + "average price: $" + Math.round(numberFormat(p.value.averages));
           })
     .colors(['#75b8e7']) //set color
-    .xAxis().ticks(5).tickFormat(function (v) {
+    .xAxis().ticks(3).tickFormat(function (v) {
             return '$' + v ; //show $ symbol on x labels
         });
 // set fixed x-axis scale
@@ -579,56 +599,37 @@ rowChart_2.xAxis().scale(rowChart_2.x());
 
 /** row chart for price by neighborhood **/
 
-rowChart_3.width(245)
-    .height(810)
-    .transitionDuration(1000)
-    .margins({top: 0, left: 5, right: 20, bottom: 20})
-    .group(priceByNeighbourhoodGroup)
-    .dimension(priceByNeighbourhood)
-    .ordering(function(d){ return -d.value.averages; }) // sorting the price value from high to low
-    .valueAccessor(function (d) { return d.value.averages; }) // set x axis
-    .colors(["#FFFFFF"]) // set the intial color to white
-    .renderlet(function(chart){  //set color of each neighborhood to be consisit with their area
-      chart.selectAll("g.row rect").attr("fill", function(d){
-        if(d.key=="Castro/Upper Market" | d.key== "Glen Park" | d.key== "Noe Valley"
-          | d.key== "Twin Peaks")
-            return "#AEC7E8";
-        else if(d.key=="Bernal Heights" | d.key=="Mission" | d.key=="Potrero Hill"
-          | d.key=="South of Market")
-            return "#FFBB78";
-        else if(d.key=="Chinatown" | d.key=="Downtown/Civic Center" | d.key=="Financial District"
-          | d.key=="Nob Hill" | d.key=="North Beach" | d.key=="Russian Hill" )
-            return "#C5B0D5";
-        else if(d.key=="Crocker Amazon" | d.key=="Excelsior" | d.key=="Outer Mission")
-            return "#F7B6D2";
-        else if(d.key=="Diamond Heights" | d.key=="West of Twin Peaks" )
-            return "#DBDB8D";
-        else if(d.key=="Golden Gate Park" | d.key=="Outer Richmond" | d.key=="Seacliff" )
-            return "#C49C94";
-        else if(d.key=="Inner Sunset" | d.key=="Outer Sunset" | d.key=="Parkside" )
-            return "#98DF8A";
-        else if(d.key=="Lakeshore" | d.key=="Ocean View"  )
-            return "#7F7F7F";
-        else if(d.key=="Marina" | d.key=="Pacific Heights"| d.key=="Presidio"
-          | d.key=="Presidio Heights"  )
-            return '#FF9896';
-        else
-            return '#FF9896';
-          });
-        })
-        .title(function(p) { //show neighborhood and average price by mouseover
-          return p.key
-              + "\n"
-              + "average price: $" + Math.round(numberFormat(p.value.averages));
-            })
-        .elasticX(false) //fix x axis
-        .xAxis().ticks(5)
-        .tickFormat(function (v){
-            return '$' + v ; // show $ symbol on x labels
-          });
-// set fixed x-axis scale
-rowChart_3.x(d3.scale.linear().range([0,(rowChart_3.width()-50)]).domain([0,300]));
-rowChart_3.xAxis().scale(rowChart_3.x());
+
+barChart_3
+        .width(550)
+        .height(420)
+        //.outerPadding(0)
+        .gap(1)
+        .margins({ top: 10, right: 0, bottom: 85, left: 40 })
+        .group(areaValueGroup)
+        .dimension(areaValue)
+        .ordering(function(d){ return d.value.avgPrice; }) // sorting the price value from high to low
+        //.elasticY(false)
+        .xUnits(dc.units.ordinal)
+        .brushOn(false)
+        .x(d3.scale.ordinal())
+
+        .valueAccessor(function(p) {return p.value.avgPrice;}) //set y axis
+
+        .renderHorizontalGridLines(true)
+        .yAxisLabel('Price / Night')
+        .y(d3.scale.linear().domain([0, 300]))
+        .yAxis().tickValues([0, 100, 200, 300])
+        .tickFormat(function (v) {
+                  return '$' + v ;  //add $ symble to y labels
+              });
+  barChart_3.on("postRender", function (c) {
+        d3.selectAll('#dc-bar-chart3 .axis.x text')
+        .style("text-anchor", "end")
+        .attr("transform", function (d) { return "rotate(-45, -4, -3) "; });
+    });
+
+
 
 /** Rendering **/
 // simply call renderAll() to render all charts on the page
