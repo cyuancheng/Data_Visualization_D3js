@@ -81,7 +81,7 @@
 
         <h2>
           <span class="label label-default">
-            Visualization of Airbnb Data in San Francisco in 2015
+            Exploratory Visualization Dashboard of Airbnb Data in San Francisco in 2015
           </span>
           <span>
               <!-- if a link with css class "reset" is present,  the chart
@@ -95,48 +95,52 @@
             Explore the prices of renting properties that were listed on
               <a href="https://www.airbnb.com">Airbnb</a>
               in San Francisco between May 2015 and May 2016 <br>
+              The simple visualization with Airbnb data involving room type, time, and area can be found
+              <a href="http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html">here.</a>
           <p>
 
-
-            <span style="padding: 0 20px">
-              Insight from the data :
-              <span style="padding: 0 10px">
+            <span style="padding: 0 0px">
+              <u>Insight from the data</u> :
+              <span style="padding: 0 5px">
                 (1) Renting
                 <a href="javascript:dc.filterAll(); dc.renderAll();
-                pieChart.filter('Entire home/apt');dc.redrawAll();">
+                rowChart0.filter('Entire home/apt');dc.redrawAll();">
                 entire home </a> is more expensive than renting
                 <a href="javascript:dc.filterAll(); dc.renderAll();
-                pieChart.filter('Private room');dc.redrawAll();">
+                rowChart0.filter('Private room');dc.redrawAll();">
                 private room </a> or <a href="javascript:dc.filterAll(); dc.renderAll();
-                pieChart.filter('Shared room');dc.redrawAll();"> shared room</a> </span> <br>
-                <span style="padding: 0 150px">
-                (2) It is cheaper to visit SF
+                rowChart0.filter('Shared room');dc.redrawAll();"> shared room</a> </span> <br>
+                <span style="padding: 0 125px">
+                (2) Although the renting price has a clear seaonality, the price in the
+                <a href="javascript:dc.filterAll(); dc.renderAll();
+                rowChart_1.filter('May');rowChart_1.filter('Jun');rowChart_1.filter('Jul');
+                rowChart_1.filter('Aug');rowChart_1.filter('Sep');
+                dc.redrawAll();">
+                peak season </a>
+                is only slightly higher
+                than in the
                 <a href="javascript: dc.filterAll(); dc.renderAll();
                 rowChart_1.filter('Jan');rowChart_1.filter('Feb');rowChart_1.filter('Mar');
                 rowChart_1.filter('Apr');rowChart_1.filter('Oct');rowChart_1.filter('Nov');
                 rowChart_1.filter('Dec');
                 dc.redrawAll();">
-                   during the off-peak season (Jan - Apr, Oct - Dec) </a>
-                or
-                <a href="javascript:dc.filterAll(); dc.renderAll();
-                rowChart_2.filter('Mon');rowChart_2.filter('Tues');rowChart_2.filter('Wed');
-                rowChart_2.filter('Thurs');
-                dc.redrawAll();">
-                during the weekdays (Mon - Thur) </a>  </span> <br>
-                <span style="padding: 0 150px">
+                   off-peak season </a>  in each area</span>
+                <br>
+                <span style="padding: 0 125px">
                 (3)
                 <a href="javascript:dc.filterAll(); dc.renderAll();
-                pieChart.filter('Private room');bubbleChart.filter('North'); dc.redrawAll();">
+                rowChart0.filter('Private room');bubbleChart.filter('North'); dc.redrawAll();">
                 Renting private room in the most expensive area </a>
                 is about the same price as
                 <a href="javascript:dc.filterAll(); dc.renderAll();
-                pieChart.filter('Entire home/apt');
+                rowChart0.filter('Entire home/apt');
                 bubbleChart.filter('Southwest');dc.redrawAll();">
                 renting entire home in the least expensive area </a> </span></span>
                 <p>
                   <p style="font-size:90%">
               Click through each chart to see how the price pattern changes with room type, time, and/or location.
-              <i>Click color box or link to select. Click again to reset. </i> <br>
+              (Click box to select. Click again to reset.)
+             <br>
             (Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>)
 
             </p>
@@ -146,12 +150,12 @@
         <div class='row-fluid'>
           <div class='remaining-graphs col-md-8'>
             <div class='row-fluid'>
-							<!-- /pie chart -->
-              <div class='col-md-4' id='dc-pie-graph'>
+							<!-- /bar chart -->
+              <div class='col-md-4' id='dc-row-chart0'>
                 <h4>Room Type
                   <span>
                     <a class="reset"
-                      href="javascript:pieChart.filterAll();dc.redrawAll();"
+                      href="javascript:rowChart0.filterAll();dc.redrawAll();"
                       style="display: none;">
                       reset
                     </a>
@@ -160,6 +164,7 @@
                 <div id="data-count">
                   <span class="filter-count", style="font-weight: bold;"></span> selected properties
                   out of <br> <span class="total-count"></span> listed properties
+                  <br><p style="font-size:90%"> x axis : number of renting properties </p>
                 </div>
               </div>
 							<!-- /row chart (price by month) -->
@@ -261,7 +266,7 @@
 
 /*** 	Create the dc.js chart objects & link to div ***/
 var bubbleChart = dc.bubbleChart("#dc-bubble-graph");
-var pieChart = dc.pieChart("#dc-pie-graph");
+var rowChart0 = dc.rowChart("#dc-row-chart0");
 var rowChart_1 = dc.rowChart("#dc-row-chart1");
 var rowChart_2 = dc.rowChart("#dc-row-chart2");
 var barChart = dc.barChart("#dc-bar-graph");
@@ -449,25 +454,29 @@ bubbleChart.width(650) //define chart width
 /** pie chart **/
 /* Create a pie chart and use the given css selector as anchor. */
 
-pieChart.width(200)
-    .height(200)
+rowChart0.width(200)
+    .height(193)
     .transitionDuration(1000)
-    .radius(100)
-    .innerRadius(0)
-    .label(function (d) {  // label percentage in pie chart
-            if (pieChart.hasFilter() && !pieChart.hasFilter(d.data.key)) {
-              return d.data.key + '(0%)';
-            }
-            var label = d.data.key;
-            if (all.value()) {
-              label += '(' + Math.floor(d.data.value / all.value() * 100) + '%)';
-            }
-            return label;
-        })
-    .renderLabel(true)
+    .margins({top:0, right: 5, bottom: 30, left: 5})
     .dimension(RoomType)
     .group(RoomTypeGroup)
-    .colors(['#729ECE', '#FF9E4A', '#67BF5C']); //define color arry for slices
+    .elasticX(false)
+    .label(function(d){ // function for show percentages on the label
+        if (rowChart0.hasFilter() && !rowChart0.hasFilter(d.key)) {
+          return d.key + '(0%)';
+              }
+              var label = d.key;
+              if (all.value()) {
+                label +=" ("
+                +Math.floor(d.value / all.reduceCount().value() * 100) + "%)";
+              }
+              return label;
+        })
+    .renderLabel(true)
+    .colors(['#729ECE', '#FF9E4A', '#67BF5C'])
+    .xAxis().ticks(5).tickFormat(function (v) {
+        return v/1000+"k"; // add k on x labels
+        });
 
 /**row chart for price by month**/
 
