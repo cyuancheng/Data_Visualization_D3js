@@ -70,7 +70,7 @@ The discussion of which and why the changes were made are summarized below:
 	- It is cheaper to visit SF during the off-peak season (Jan - Apr, Oct - Dec) or during the week (Mon - Thur) 
 	- Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
 
-**(4) Revised visualization design based on reviewer's comments, the third submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original exploratory visualization,  [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html) for simple explanatory version)**
+**(4) Revised visualization design based on reviewer's comments, the third submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original exploratory visualization,  [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re11.html) for simple explanatory version)**
 
 - Consistently used tabs in the codes to avoid "indentation wars"
 - Deleted redundant comments in the code
