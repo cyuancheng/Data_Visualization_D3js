@@ -378,9 +378,9 @@ rowChart.width(300)
 
 /**row chart for price by month**/
 rowChart_1.width(380)
-    .height(200)
+    .height(190)
     .transitionDuration(1000)
-    .margins({top:5, right: 5, bottom: 20, left: 5})
+    .margins({top:1, right: 5, bottom: 20, left: 5})
     .group(priceByMonthGroup)
     .dimension(priceByMonth)
     .gap(1)
@@ -397,7 +397,7 @@ rowChart_1.width(380)
     .title(function(p) { // show month and average price by mouthover
       return p.key
                 + "\n"
-                + "average price: $" + Math.round(numberFormat(p.value.averages));
+                + "average price / night: $" + Math.round(numberFormat(p.value.averages));
       })
     .colors(['#75b8e7'])
     .xAxis().ticks(3).tickFormat(function (v) {
@@ -412,11 +412,11 @@ rowChart_1.xAxis().scale(rowChart_1.x());
 barChart_3
         .width(580)
         .height(430)
+        .transitionDuration(1000)
         .gap(1)
         .margins({ top: 5, right: 0, bottom: 85, left: 40 })
         .group(areaValueGroup)
         .dimension(areaValue)
-
         .ordering(function(p){ return p.value.avgPrice; }) // sorting the price value from low to high
         //.cap(10)
         .elasticY(false)
@@ -428,8 +428,8 @@ barChart_3
             return d.data.key  // mouseover
               + "\n"
               + "average price / night: $" + Math.round(numberFormat(d.data.value.avgPrice)) + "\n"
-              + "average availability: " + Math.round(numberFormat(d.data.value.avgAva)) + "%" + "\n"
-              + "number of review: " + Math.round(numberFormat(d.data.value.sumReview)) + "\n"
+            //  + "average availability: " + Math.round(numberFormat(d.data.value.avgAva)) + "%" + "\n"
+            //  + "number of review: " + Math.round(numberFormat(d.data.value.sumReview)) + "\n"
               + "number of renting properties:" + Math.round(numberFormat(d.data.value.count));
             })
         .renderHorizontalGridLines(true)

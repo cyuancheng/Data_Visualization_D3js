@@ -55,7 +55,7 @@ The discussion of which and why the changes were made are summarized below:
 - Rounded all the values in the mouseovers. It is because availability, price, number of review should not have decimal.  
 - Changed the gridlines weight to light dark, so the charts are consistent among one another.
 
-**(3) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
+**(3) Revised visualization design based on reviewer's comments, the first submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
 
 - In order to tell stories from the visualization, I did more exploratory data analysis, and filtered out specific values to show explanatory charts. I then created link buttons that automatically adjust the plots.
 - Turned off the BrushOn function and used the tooltip for line chart, so reader can see the specific values of price and date in the line chart.
@@ -63,19 +63,24 @@ The discussion of which and why the changes were made are summarized below:
 - Used the same color of two row chart (price by month and price by day) to avoid confusing
 - Changed the style for the text and title, so that reader can easily capture the message and story.
 
-**(4) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re9.html))**
+**(4) Revised visualization design based on reviewer's comments, the second submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re9.html))**
 
 - Draw noteworthy conclusions at the top of the visulization. The insights from the data are summarized below:
 	- Renting entire home is more expensive than renting private room or shared room 
 	- It is cheaper to visit SF during the off-peak season (Jan - Apr, Oct - Dec) or during the week (Mon - Thur) 
 	- Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
 
-**(4) Revised visualization design based on reviewer's comments (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html))**
+**(4) Revised visualization design based on reviewer's comments, the third submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original visualization)**
 
 - Consistently used tabs in the codes to avoid "indentation wars"
 - Deleted redundant comments in the code
-- Fixed the bugs on the percentage of the pie chart
+- Fixed the bugs on the percentage of the pie chart, and change the pie chart to row chart for room-type data
 - Added the reset to the filters in the "insight from the data" section 
+- I revised the second insight, because it seems like that there is no strong seasonal trend in the data.
+- I decided to use a simple explanatory visualization to present my story (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html)), as below:
+	- Only present three graphs (a row chart for "room type", row chart for "price by month", and a row chart for "price by area" ). 
+	-  The original eploratory visualization was provided as a link in the new html file.
+
 
 ###Feedback
 
