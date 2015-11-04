@@ -234,30 +234,31 @@
         indicator.setBounds(950, 49, 153, 311);
 
         // add month along the y axis
-        var y = indicator.addCategoryAxis("y", "month1");
-        y.addOrderRule([ 'Jan', 'Feb', 'Mar', 'Apr','May','Jun',
+        var y1 = indicator.addCategoryAxis("y", "month1");
+        y1.addOrderRule([ 'Jan', 'Feb', 'Mar', 'Apr','May','Jun',
          'Jul','Aug','Sep','Oct', 'Nov','Dec']);
 
         //use price for bar size and hide the axis
         var x1 = indicator.addMeasureAxis("x", "median_price");
         x1.hidden = false;
         //x1.tickFormat = ',.1f';
-        x1.aggregate = dimple.aggregateMethod.avg;
+        //x1.aggregate = dimple.aggregateMethod.avg;
 
         // add bars to the indicator and add event handlers
         var s = indicator.addSeries(null, dimple.plot.bar);
+        s.aggregate = dimple.aggregateMethod.avg;
         s.addEventHandler("click", onClick);
 
         //Draw the side chart
         indicator.draw();
 
         // remove the title from the y axis
-        y.titleShape.remove();
+        y1.titleShape.remove();
         //remove the line from the y axis
-        //y.shapes.selectAll("line, path").remove();
+        //y1.shapes.selectAll("line, path").remove();
 
         // Move the y axis text inside the plot area
-        y.shapes.selectAll("text")
+        y1.shapes.selectAll("text")
                 .style("text-anchor", "start")
                 .style("font-size", "11px")
                 .attr("transform", "translate(18, 0.5)");
@@ -296,7 +297,11 @@
         var mySeries = myChart.addSeries("room_type", dimple.plot.bar, [x,y]);
         mySeries.aggregate = dimple.aggregateMethod.avg;
 
-        //x.addOrderRule("median_price");
+        x.addOrderRule(["North", "Twin Peaks West", "Central", "Northwest",
+        "Northeast","Central East", "Central West", "Southeast", "Southwest"]);
+
+        //var max = myChart.addSeries("Max", dimple.plot.bubble, [x, y]);
+        //max.aggregate = dimple.aggregateMethod.max;
 
         myChart.addLegend(300, 10, 360, 200, "right");
 
@@ -316,34 +321,93 @@
 
         // draw the chart
         myChart.draw();
+        // Orphan the legends as they are consistent but by default they
+        // will refresh on tick
+        myChart.legends = [];
+
+        story.storyLabel.remove();
+
         // On click of the side chart
-          function onClick(e) {
-              // Pause the animation
-              story.pauseAnimation();
-              // If it is already selected resume the animation
-              // otherwise pause and move to the selected month
-              if (e.yValue === story.getFrameValue()) {
-                  story.startAnimation();
-              } else {
-                  story.goToFrame(e.yValue);
-                  story.pauseAnimation();
-              }
+        function onClick(e) {
+            // Pause the animation
+            story.pauseAnimation();
+            // If it is already selected resume the animation
+            // otherwise pause and move to the selected year
+            if (e.yValue === story.getFrameValue()) {
+                story.startAnimation();
+            } else {
+                story.goToFrame(e.yValue);
+                story.pauseAnimation();
+            }
+        }
+
+        // On tick of the main charts storyboard
+        function onTick(e) {
+            if (!firstTick) {
+                // Color all shapes the same
+                s.shapes
+                        .transition()
+                        .duration(frame / 2)
+                        .style("fill", function (d) { return (d.y === e ? indicatorColor.fill : defaultColor.fill) })
+                        .style("stroke", function (d) { return (d.y === e ? indicatorColor.stroke : defaultColor.stroke) });
+                // stop animation after first round
+            } if (story.getFrameValue() === "2010") {
+                story.stopAnimation();
+            }
+
+            firstTick = false;
+        }
+
+
+
+      // This block simply adds the legend title. I put it into a d3 data
+      // object to split it onto 2 lines.  This technique works with any
+      // number of lines, it isn't dimple specific.
+      svg.selectAll("title_text")
+        .data(["Click on continents to show or hide:"])
+        .enter()
+        .append("text")
+          .attr("x", 570)
+          .attr("y", 15)
+          .style("font-family", "sans-serif")
+          .style("font-size", "10px")
+          .style("color", "Black")
+          .text(function (d) { return d; });
+
+      // Get a unique list of Region values to use when filtering
+      var filterValues = dimple.getUniqueValues(data, "room_type");
+      // Get all the rectangles from our now orphaned legend
+      myLegend.shapes.selectAll("rect")
+        // Add a click event to each rectangle
+        .on("click", function (e) {
+          // This indicates whether the item is already visible or not
+          var hide = false;
+          var newFilters = [];
+          // If the filters contain the clicked shape hide it
+          filterValues.forEach(function (f) {
+            if (f === e.aggField.slice(-1)[0]) {
+              hide = true;
+            } else {
+              newFilters.push(f);
+            }
+          });
+          // Hide the shape or show it
+          if (hide) {
+            d3.select(this).style("opacity", 0.2);
+          } else {
+            newFilters.push(e.aggField.slice(-1)[0]);
+            d3.select(this).style("opacity", 0.8);
           }
+          // Update the filters
+          filterValues = newFilters;
+          // Filter the data
+          myChart.data = dimple.filterData(data, "room_type", filterValues);
+          // Passing a duration parameter makes the chart animate. Without
+          // it there is no transition
 
-          // On tick of the main charts storyboard
-  function onTick(e) {
-      if (!firstTick) {
-          // Color all shapes the same
-          s.shapes
-                  .transition()
-                  .duration(frame / 2)
-                  .style("fill", function (d) { return (d.y === e ? indicatorColor.fill : defaultColor.fill) })
-                  .style("stroke", function (d) { return (d.y === e ? indicatorColor.stroke : defaultColor.stroke) });
-      }
-      firstTick = false;
-  }
-
-      });
+          myChart.draw(800);
+          });
+    });
 
 
 
