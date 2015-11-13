@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <!--HTML coding, load required js or css files> -->
+    <meta name="viewport" content="width=device-width,
+    initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="Data Visulization of Airbnb Price in SF">
+    <meta name="author" content="Chiyuan Cheng">
+
+    <!--d3.js -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- dimple.js-->
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+
+    <!-- crossfilter.js-->
+  <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script> -->
+
+    <!--bootstrap-->
+    <script src='javascripts/jquery-1.9.1.min.js' type='text/javascript'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!--<style type="text/css"></style> -->
+
+    <!--CSS coding> -->
+    <style>
+
+    body {
+      text-align: center;
+
+    }
+
+      h2 {
+        float: center;
+        color: #0f3b74;
+        text-transform: uppercase;
+      }
+/*adjust the font size of chart title*/
+      h4 {
+        font-size:15px;
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+      }
+/*adjust the font size of reset buttons for each chart*/
+      h4 span {
+        font-size:11px;
+        font-weight:normal;
+      }
+
+/*adjust the font size of reset button for the title*/
+      h2 span {
+        font-size:12px;
+        font-weight:normal;
+      }
+/*adjust the position of the paragraph*/
+      p {
+        align: center;
+        display: block;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0em;
+        margin-right: 0;
+      }
+
+</style>
+
+</head>
+
+<!--HTML layout-->
+<body>
+
+
+<!--javascipt coding-->
+<script type="text/javascript">
+
+  d3.select("body").append("h2").text("Visualization of Airbnb Data in San Francisco in 2015");
+  d3.select("body").append("h5").text("GDP per capita in US$. Urban population (%) of total. Bubble size: log(number of review). Bar length: total GDP per capita in US$.");
+
+  var svg = dimple.newSvg("body", 1090, 600);
+
+/***  Load data from a tsv file ***/
+  d3.tsv("data/data_SF_month.tsv", function (data) {
+
+    var dateFormat = d3.time.format("%m/%d/%y"); //adjust time format
+    var numberFormat = d3.format(".2f");
+    var monthNameFormat = d3.time.format("%b"); //month format
+    //var dateFormat1 = d3.time.format("%m/%d/%Y");
+
+    data.forEach(function (e) {
+      e.dd = dateFormat.parse(e.date);
+      e.month1 = monthNameFormat(e.dd); //month format
+    //  e.date1 = dateFormat1(e.dd);
+      });
+
+      // get a unique list of months
+      var months =  dimple.getUniqueValues(data, "month1");
+      // set the bounds for the charts
+      var row = 0,
+          col = 0,
+          top = 25,
+          left = 60,
+          inMarg = 20,
+          width = 200,
+          height = 100,
+          totalWidth = parseFloat(svg.attr("width"));
+      // pick the latest 12 dates
+      //months = months.slice(months.lenght-12);
+      months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      //var result = months;//.top(Infinity);
+      //console.log("result variable");
+      //console.log(result);
+
+      //Draw a chart for each of the 12 months
+      months.forEach(function(m){
+        //wrap to the row above
+        if (left + ((col+1)*(width+inMarg)) > totalWidth){
+          row += 1;
+          col = 0;
+        }
+        //Filter for the month in the interaction
+        //var chartData = dimple.filterData(data, "month", month)
+        var chartData = dimple.filterData(data, "month1", m);
+      //  ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
+
+
+
+
+
+        //Use d3 to draw a text label for the month
+        svg
+        .append("text")
+                .attr("x", left + (col * (width + inMarg)) + (width / 2))
+                .attr("y", top + (row * (height + inMarg)) + (height / 2) -30)
+                .style("font-family", "sans-serif")
+                .style("text-anchor", "middle")
+                .style("font-size", "28px")
+                .style("opacity", 0.2)
+                .text(chartData[0].month1.substring(0,3));
+                //['Jan', 'Feb', 'Mar', 'Apr','May','Jun',
+                // 'Jul','Aug','Sep','Oct', 'Nov','Dec']);//[0]);//.Month.substring(0, 3));
+
+
+
+        // Create a chart at the correct point in the trellis
+        var myChart = new dimple.chart(svg, chartData);
+        myChart.setBounds(
+                  left + (col * (width + inMarg)),
+                  top + (row * (height + inMarg)),
+                  width,
+                  height);
+
+
+        // Add x and fix ordering so that all charts are the same
+        var x = myChart.addCategoryAxis("x", [ "Area_SF", "room_type"]);
+        x.addOrderRule(["North", "Twin Peaks West", "Central", "Northwest",
+        "Northeast","Central East", "Central West", "Southeast", "Southwest"]);
+
+        // Add y and fix scale so that all charts are the same
+        var y = myChart.addMeasureAxis("y", "median_price");
+        y.overrideMax = 310;
+
+                // Draw the bars.  Passing null here would draw all bars with
+                // the same color.  Passing owner second colors by owner, which
+                // is normally bad practice in a bar chart but works in a trellis.
+                // Month is only passed here so that it shows in the tooltip.
+        var mySeries = myChart.addSeries("room_type", dimple.plot.bar, [x,y]);
+        mySeries.aggregate = dimple.aggregateMethod.avg;
+
+
+
+                // Draw the chart
+        myChart.draw();
+
+                // Once drawn we can access the shapes
+                // If this is not in the first column remove the y text
+        if (col > 0) {
+                  y.shapes.selectAll("text").remove();
+                }
+                // If this is not in the last row remove the x text
+        if (row < 2) {
+                   x.shapes.selectAll("text").remove();
+                }
+                // Remove the axis labels
+        y.titleShape.remove();
+        x.titleShape.remove();
+
+                // Move to the next column
+                col += 1;
+
+            }, this);
+
+            //myChart.addLegend(95, 5, 360, 200, "right");
+          });
+
+
+
+</script>
+
+
+</body>
+</html>
