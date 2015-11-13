@@ -68,6 +68,12 @@
         margin-right: 0;
       }
 
+      .legend rect {
+        fill:white;
+        stroke:black;
+        opacity:0.8;}
+
+      }
 </style>
 
 </head>
@@ -78,6 +84,8 @@
 
 <!--javascipt coding-->
 <script type="text/javascript">
+
+
 
   d3.select("body").append("h2").text("Visualization of Airbnb Data in San Francisco in 2015");
   d3.select("body").append("h5").text("GDP per capita in US$. Urban population (%) of total. Bubble size: log(number of review). Bar length: total GDP per capita in US$.");
@@ -112,9 +120,7 @@
       // pick the latest 12 dates
       //months = months.slice(months.lenght-12);
       months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      //var result = months;//.top(Infinity);
-      //console.log("result variable");
-      //console.log(result);
+
 
       //Draw a chart for each of the 12 months
       months.forEach(function(m){
@@ -126,8 +132,6 @@
         //Filter for the month in the interaction
         //var chartData = dimple.filterData(data, "month", month)
         var chartData = dimple.filterData(data, "month1", m);
-      //  ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
-
 
         //Use d3 to draw a text label for the month
         svg
@@ -139,9 +143,6 @@
                 .style("font-size", "28px")
                 .style("opacity", 0.2)
                 .text(chartData[0].month1.substring(0,3));
-                //['Jan', 'Feb', 'Mar', 'Apr','May','Jun',
-                // 'Jul','Aug','Sep','Oct', 'Nov','Dec']);//[0]);//.Month.substring(0, 3));
-
 
 
         // Create a chart at the correct point in the trellis
@@ -168,6 +169,12 @@
                 // Month is only passed here so that it shows in the tooltip.
         var mySeries = myChart.addSeries("room_type", dimple.plot.bar, [x,y]);
         mySeries.aggregate = dimple.aggregateMethod.avg;
+
+        //Show legend
+        if (m=="Jan") {
+          myChart.addLegend(50, 10, 500, 30, "left", mySeries);
+        }
+
 
       //var y = d3.scale.linear()
       //          .range([300, 0]);
@@ -232,8 +239,8 @@
       //          .style("font-size", "12px")
       //          .style("color", "Black")
       //          .text(function (d) { return d; });
+//Add y axis label
           svg.append("text")
-
                 .attr("x", -100 )
                 .attr("y",10)
                 //.attr("dy", ".71em")
@@ -246,9 +253,11 @@
                 .style("color", "Black")
                 .text("price per night");
 
+        //var result = chartData_1;//.top(Infinity);
+        //console.log("result variable");
+        //console.log(result);
 
-
-          });
+        });
 
 
 
