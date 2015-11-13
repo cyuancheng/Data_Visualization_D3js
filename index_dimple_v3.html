@@ -19,13 +19,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-
 <!--CSS coding> -->
   <style>
-
-/*    body {
-      text-align: center;
-    } */
 
     h2 {
       float: center;
@@ -67,9 +62,9 @@
       <a href="http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html">here.</a>
       <font size = "1">(Data Source: <a href="http://insideairbnb.com/san-francisco/">Inside Airbnb</a>) </font>
     <br><br>
-    The following grouped bar charts are monthly renting prices at different area and room type in San Francisco. The x axis
-    is ranking from less expensive to most expensive area.
-    <br>(Move your cursor to the bar chart to see more information)
+    The following multi-category bar charts present monthly renting prices at different area and room type in San Francisco.
+    <br>The x axis is ranked from the least expensive to the most expensive area.
+    (Move your cursor to the bar chart to see more information)
 
     <br><br>
 
@@ -81,18 +76,6 @@
 
 <!--javascipt coding-->
 <script type="text/javascript">
-
-//  d3.select("body").append("h2").text("Visualization of Airbnb Data in San Francisco in 2015");
-//  d3.select("body").append("h5").text("Explore the prices of renting properties that were listed on Airbnb in San Francisco between May 2015 and May 2016")
-//  d3.select("body").append("h6").text(")
-
-//  Insight from the data : (1) Renting entire home is more expensive than renting private room or shared room
-//  (2) Although the renting price has a clear seaonality, the price in the peak season is only slightly higher than in the off-peak season in each area
-//  (3) Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
-
-//  Click through each chart to see how the price pattern changes with room type, time, and/or location. (Click box to select. Click again to reset.)
-//  (Data Source: Inside Airbnb))"
-
 
   var svg = dimple.newSvg("body", 1000, 500); // define svg
 
@@ -241,6 +224,7 @@
         // Remove the axis labels
         y.titleShape.remove();
         x.titleShape.remove();
+
         // arrange the figures
         // If this is not in the first column remove the y text
         if (col > 0) {
@@ -256,12 +240,11 @@
 
             }, this);
 
-
         //Add y axis label (do this outside the loop)
         svg
           .append("text")
-          .attr("x", -100 )
-          .attr("y",10)
+          .attr("x", -150 )
+          .attr("y",15)
           .attr("dy", "1em")
           .attr("transform", "rotate(-90)")
           .style("font-family", "sans-serif")

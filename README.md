@@ -1,7 +1,7 @@
 ##Project 6: Make Effective Data Visulization | Data Visualization and D3.js
 
 - Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com)
-- Last updated: Oct 29, 2015
+- Last updated: Nov 13, 2015
 
 ###Summary
 
@@ -55,7 +55,7 @@ The discussion of which and why the changes were made are summarized below:
 - Rounded all the values in the mouseovers. It is because availability, price, number of review should not have decimal.  
 - Changed the gridlines weight to light dark, so the charts are consistent among one another.
 
-**(3) Revised visualization design based on reviewer's comments, the first submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
+**(3) Revised visualization design based on reviewer's comments, the 1st submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re8.html))**
 
 - In order to tell stories from the visualization, I did more exploratory data analysis, and filtered out specific values to show explanatory charts. I then created link buttons that automatically adjust the plots.
 - Turned off the BrushOn function and used the tooltip for line chart, so reader can see the specific values of price and date in the line chart.
@@ -63,14 +63,14 @@ The discussion of which and why the changes were made are summarized below:
 - Used the same color of two row chart (price by month and price by day) to avoid confusing
 - Changed the style for the text and title, so that reader can easily capture the message and story.
 
-**(4) Revised visualization design based on reviewer's comments, the second submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re9.html))**
+**(4) Revised visualization design based on reviewer's comments, the 2nd submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re9.html))**
 
 - Draw noteworthy conclusions at the top of the visulization. The insights from the data are summarized below:
 	- Renting entire home is more expensive than renting private room or shared room 
 	- It is cheaper to visit SF during the off-peak season (Jan - Apr, Oct - Dec) or during the week (Mon - Thur) 
 	- Renting private room in the most expensive area is about the same price as renting entire home in the least expensive area
 
-**(5) Revised visualization design based on reviewer's comments, the third submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original exploratory visualization,  [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re11.html) for simple explanatory version)**
+**(5) Revised visualization design based on reviewer's comments, the 3rd submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html) for original exploratory visualization,  [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re11.html) for simple explanatory version)**
 
 - Consistently used tabs in the codes to avoid "indentation wars"
 - Deleted redundant comments in the code
@@ -80,6 +80,18 @@ The discussion of which and why the changes were made are summarized below:
 - I decided to use a simple explanatory visualization to present my story, as below:
 	- Only present three graphs (a row chart for "room type", row chart for "price by month", and a row chart for "price by area" ). 
 	-  The original exploratory visualization was provided as a link in the new html file.
+
+**(6) Revised visualization design based on reviewer's comments, the 4th submission (revised [index.html](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html) for explanatory version using dimple.js)**
+
+- Constructed "explanatory graph" using [dimple.js](http://dimplejs.org), according reviewer's suggestion:
+	- Dc.js is designed for exploratory dashboard visualization and might not be the best tool to make a explanatory visualization. Thus, I switched to dimple.js to make a new explanatory visualization. 
+	- I showed the renting price at different area, room type and month using a **multi-category bar chart**.
+	- In each bar chart, I showed area and room type on the x axis, and then sorted the x-axis from the least expensive area to the most expensive area. I presented each bar chart by month.
+	- I found that renting the entire room in the least expensive area is equal or cheaper than renting the private room in the most expensive area ONLY during the off-peak season (I marked the months of off-peak season with red text). This is the main story I want to show in this visualization. I highlighted the text of this insight in yellow, so the reader can easily see this.
+	- In each bar chart, I marked the price of the private room in the most expensive area by red circle, and the price of the entire room in the least expensive area by blue circle, so that the reader can compare these two values in each chart.
+	- The reason I used the multi-category bar chart is because the reader can easily compare renting price at different area and room type in each chart. 
+	- By comparing the price by month (between different bar chart), I found that the price pattern does not charge that much between each month, suggesting that the renting price does not have strong seasonality in SF. But as reviewer stated, a line chart (price v.s. month for different area) is a better way to show the time-series data, so I did not emphasize the seasonality in this visualization.
+- I provided my original exploratory dashboard visualization as a link in the new html file, so the reader can access this visualization if they are interested.
 
 
 ###Feedback
@@ -130,5 +142,6 @@ I obtained lots of helpful feedback and comments from [Udacity discussion forum]
 ###Resources
 1. [DC.JS GETTING STARTED AND HOW-TO GUIDE](https://dc-js.github.io/dc.js/docs/stock.html)
 2. [Create Rich Interactive Visualisations](https://becomingadatascientist.wordpress.com/2013/05/21/create-rich-interactive-visualisations/)
+3. [dimple.js](http://dimplejs.org)
 
 
