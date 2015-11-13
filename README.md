@@ -24,7 +24,7 @@ I took the 2015 Airbnb data in San Francisco from [Inside Airbnb](http://insidea
  
 ####2. Design
 
-**(1)  Initial visualization design. (original [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html))**
+**(1)  Initial visualization design (original [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html))**
  
 All the graphs are generated using [dc.js](https://dc-js.github.io/dc.js/), which is dimensional charting javascript library on top of D3.js. I used [crossfilter](http://square.github.io/crossfilter/) to quickly manipulate multi-dimensional data array, including filtering and grouping. These two unique tools allow me to make interactive dashboard very easily. Because this project contains seven graphs, I used [Bootstrap](http://getbootstrap.com) to design the HTML, CSS, and JavaScript framework. 
 
