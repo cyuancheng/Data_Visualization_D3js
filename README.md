@@ -7,6 +7,10 @@
 
 This project is to create an explanatory data visualization from Airbnb dataset to analyze the price of accommodation places in San Francisco in 2015. The purpose  is to demonstrate how the price of accommodations in San Francisco varies with room type, time, and/or location. 
 
+### Final Version of Visualization
+1. [Explanatory visualization of Airbnb data](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html)
+2. [Exploratory visualization of Airbnb data](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html)
+
 ###Design
 ####1. Data clean and manipulation
 
