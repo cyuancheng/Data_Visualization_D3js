@@ -101,7 +101,7 @@ The discussion of which and why the changes were made are summarized below:
 - I provided my original exploratory dashboard visualization as a link in the new html file, so the reader can access this visualization if they are interested.
 
 
-###Feedback
+### Feedback
 
 I obtained lots of helpful feedback and comments from [Udacity discussion forum](https://discussions.udacity.com/t/project-feedback-visualization-of-airbnb-data-in-san-francisco/34570/4) and [Google+](https://plus.google.com/communities/116797052510270749486?gclid=Cj0KEQjwwIKxBRDKhOz7ytT30vkBEiQAT1NaPS05CAXdYdk1Yu7ymp6T8ZGMhTJ0lMeqMdwFyCpF2bsaAkHc8P8HAQ). The selected feedback and comments are below:
 
@@ -146,7 +146,7 @@ I obtained lots of helpful feedback and comments from [Udacity discussion forum]
 	- The colors are fading in Price by Month and Price by Day graphs. Not sure do they have some significance (like price is higher with darker colors)﻿
 
 
-###Resources
+### Resources
 1. [DC.JS GETTING STARTED AND HOW-TO GUIDE](https://dc-js.github.io/dc.js/docs/stock.html)
 2. [Create Rich Interactive Visualisations](https://becomingadatascientist.wordpress.com/2013/05/21/create-rich-interactive-visualisations/)
 3. [dimple.js](http://dimplejs.org)
