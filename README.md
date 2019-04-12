@@ -1,6 +1,6 @@
-## Project 6: Make Effective Data Visulization | Data Visualization and D3.js
+## Project 6: Make Effective Data Visualization| Data Visualization and D3.js
 
-- Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com)
+- Author:  Chiyuan Cheng (cyuancheng AT gmail DOT com)
 - Last updated: Nov 13, 2015
 -  [Certificate](certificate-6.pdf)
 
