@@ -1,10 +1,10 @@
-##Project 6: Make Effective Data Visulization | Data Visualization and D3.js
+## Project 6: Make Effective Data Visulization | Data Visualization and D3.js
 
 - Author:  Chi-Yuan Cheng (cyuancheng AT gmail DOT com)
 - Last updated: Nov 13, 2015
 -  [Certificate](certificate-6.pdf)
 
-###Summary
+### Summary
 
 This project is to create an explanatory data visualization from Airbnb dataset to analyze the price of accommodation places in San Francisco in 2015. The purpose  is to demonstrate how the price of accommodations in San Francisco varies with room type, time, and/or location. 
 
@@ -14,8 +14,8 @@ This project is to create an explanatory data visualization from Airbnb dataset 
 1. [Explanatory visualization of Airbnb data](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index.html)
 2. [Exploratory visualization of Airbnb data](http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re10.html)
 
-###Design
-####1. Data clean and manipulation
+### Design
+#### 1. Data clean and manipulation
 
 I took the 2015 Airbnb data in San Francisco from [Inside Airbnb](http://insideairbnb.com/san-francisco/), and data of SF neighborhood v.s. area from [sfarmis.com](http://www.sfarmls.com/docs/areamaps.htm). I first used R program to merge two data sets by neighborhood. The price outliners were then removed from the dataset by only including the price values within 95 % range. Finally, I grouped the data based on room type, area, neighborhood. The subset of the data is listed below.
  
@@ -29,7 +29,7 @@ I took the 2015 Airbnb data in San Francisco from [Inside Airbnb](http://insidea
 6 Entire home/apt Central Castro/Upper Market 1/14/16     1 Thurs        207.5    74.10959    1976
  ```
  
-####2. Design
+#### 2. Design
 
 **(1)  Initial visualization design (original [index.html] (http://cdn.rawgit.com/cyuancheng/Data_Visualization_D3js/master/index_re1.html))**
  
